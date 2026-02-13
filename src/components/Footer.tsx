@@ -33,9 +33,23 @@ const fallbackColumns = [
 
 interface FooterProps {
   columns?: FooterColumn[];
+  tagline?: string;
+  copyright?: string;
+  privacyLabel?: string;
+  privacyHref?: string;
+  termsLabel?: string;
+  termsHref?: string;
 }
 
-export function Footer({ columns }: FooterProps) {
+export function Footer({
+  columns,
+  tagline = "Transformando vidas, construyendo comunidad, impactando ciudades.",
+  copyright = "© 2026 Iglesia Revoluciona. Todos los derechos reservados.",
+  privacyLabel = "Privacidad",
+  privacyHref = "#",
+  termsLabel = "Terminos",
+  termsHref = "#",
+}: FooterProps) {
   const cols = columns && columns.length > 0 ? columns : fallbackColumns;
 
   return (
@@ -52,7 +66,7 @@ export function Footer({ columns }: FooterProps) {
             className="object-contain object-left w-[160px] md:w-[200px]"
           />
           <p className="font-body text-[14px] text-[var(--text-muted)] leading-[1.5] max-w-[300px]">
-            Transformando vidas, construyendo comunidad, impactando ciudades.
+            {tagline}
           </p>
         </div>
 
@@ -83,20 +97,20 @@ export function Footer({ columns }: FooterProps) {
       {/* Bottom */}
       <div className="flex flex-col md:flex-row items-center justify-between w-full gap-4">
         <span className="font-body text-[12px] text-[var(--text-muted)]">
-          © 2026 Iglesia Revoluciona. Todos los derechos reservados.
+          {copyright}
         </span>
         <div className="flex gap-6">
           <a
-            href="#"
+            href={privacyHref}
             className="font-body text-[12px] text-[var(--text-muted)] hover:text-white transition-colors"
           >
-            Privacidad
+            {privacyLabel}
           </a>
           <a
-            href="#"
+            href={termsHref}
             className="font-body text-[12px] text-[var(--text-muted)] hover:text-white transition-colors"
           >
-            Terminos
+            {termsLabel}
           </a>
         </div>
       </div>

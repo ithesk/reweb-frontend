@@ -40,9 +40,15 @@ function getSafeImageUrl(image: ChurchEvent["image"] | undefined, fallback: stri
 
 interface EventsProps {
   events?: ChurchEvent[];
+  headerLabel?: string;
+  headerTitle?: string;
 }
 
-export function Events({ events }: EventsProps) {
+export function Events({
+  events,
+  headerLabel = "PROXIMOS EVENTOS",
+  headerTitle = "No te pierdas lo que viene",
+}: EventsProps) {
   const items = events && events.length > 0
     ? events.map((e, i) => ({
         date: e.displayDate,
@@ -58,10 +64,10 @@ export function Events({ events }: EventsProps) {
       <div className="flex flex-col md:flex-row md:items-end justify-between w-full gap-4">
         <div className="flex flex-col gap-4">
           <span className="font-display text-[12px] font-bold text-[var(--text-secondary)] tracking-[3px]">
-            PROXIMOS EVENTOS
+            {headerLabel}
           </span>
           <h2 className="font-display text-[32px] md:text-[40px] lg:text-[48px] font-extrabold text-[var(--text-primary)] tracking-[-1px]">
-            No te pierdas lo que viene
+            {headerTitle}
           </h2>
         </div>
         <a

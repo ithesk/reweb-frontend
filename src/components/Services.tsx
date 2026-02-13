@@ -37,9 +37,17 @@ function getSafeImageUrl(image: Service["image"] | undefined, fallback: string):
 
 interface ServicesProps {
   services?: Service[];
+  headerLabel?: string;
+  headerTitle?: string;
+  headerDescription?: string;
 }
 
-export function Services({ services }: ServicesProps) {
+export function Services({
+  services,
+  headerLabel = "NUESTROS SERVICIOS",
+  headerTitle = "Encuentra tu lugar",
+  headerDescription = "Tenemos algo para cada etapa de tu vida. Descubre como puedes crecer y servir en comunidad.",
+}: ServicesProps) {
   const items = services && services.length > 0
     ? services.map((s, i) => ({
         title: s.title,
@@ -56,14 +64,13 @@ export function Services({ services }: ServicesProps) {
       {/* Header */}
       <div className="flex flex-col items-center gap-4 max-w-[700px]">
         <span className="font-display text-[12px] font-bold text-[var(--text-muted)] tracking-[3px]">
-          NUESTROS SERVICIOS
+          {headerLabel}
         </span>
         <h2 className="font-display text-[32px] md:text-[40px] lg:text-[48px] font-extrabold text-[var(--text-inverted)] tracking-[-1px] text-center">
-          Encuentra tu lugar
+          {headerTitle}
         </h2>
         <p className="font-body text-[15px] md:text-[16px] text-[var(--text-muted)] leading-[1.6] text-center max-w-[600px]">
-          Tenemos algo para cada etapa de tu vida. Descubre como puedes crecer y
-          servir en comunidad.
+          {headerDescription}
         </p>
       </div>
 

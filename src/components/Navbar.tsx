@@ -14,9 +14,10 @@ const fallbackLinks = [
 
 interface NavbarProps {
   links?: NavLink[];
+  searchPlaceholder?: string;
 }
 
-export function Navbar({ links }: NavbarProps) {
+export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const navLinks = links && links.length > 0 ? links : fallbackLinks;
 
@@ -51,7 +52,7 @@ export function Navbar({ links }: NavbarProps) {
         <div className="flex items-center gap-[10px] w-[220px] h-[40px] rounded-[20px] bg-white/[0.08] px-4">
           <Search className="w-[18px] h-[18px] text-[var(--text-muted)]" />
           <span className="font-body text-[13px] text-[var(--text-muted)]">
-            Buscar
+            {searchPlaceholder}
           </span>
         </div>
         <div className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-white/[0.08]">
@@ -89,7 +90,7 @@ export function Navbar({ links }: NavbarProps) {
             <div className="flex items-center gap-[10px] flex-1 h-[40px] rounded-[20px] bg-white/[0.08] px-4">
               <Search className="w-[18px] h-[18px] text-[var(--text-muted)]" />
               <span className="font-body text-[13px] text-[var(--text-muted)]">
-                Buscar
+                {searchPlaceholder}
               </span>
             </div>
             <div className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-white/[0.08]">

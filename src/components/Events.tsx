@@ -1,32 +1,42 @@
 import type { ChurchEvent } from "@/lib/types";
 import { getStrapiImageUrl } from "@/lib/api";
 
+const fallbackImages = [
+  "https://images.unsplash.com/photo-1764643588195-e18878c0a39c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "https://images.unsplash.com/photo-1758272133406-159ba07499dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "https://images.unsplash.com/photo-1763901326432-4b08b99e03e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+];
+
 const fallbackEvents = [
   {
     date: "MAR 15 — DOMINGO",
     title: "Servicio Especial de Adoracion",
     description:
       "Una noche dedicada a la adoracion y la presencia de Dios. Invita a tu familia y amigos.",
-    image:
-      "https://images.unsplash.com/photo-1764643588195-e18878c0a39c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    image: fallbackImages[0],
   },
   {
     date: "MAR 22 — SABADO",
     title: "Noche de Jovenes",
     description:
       "Un espacio disenado para la nueva generacion. Musica, comunidad y un mensaje que transforma.",
-    image:
-      "https://images.unsplash.com/photo-1758272133406-159ba07499dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    image: fallbackImages[1],
   },
   {
     date: "ABR 5 — DOMINGO",
     title: "Dia de Familia",
     description:
       "Celebramos en familia con actividades para todas las edades. Un dia lleno de alegria y conexion.",
-    image:
-      "https://images.unsplash.com/photo-1763901326432-4b08b99e03e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    image: fallbackImages[2],
   },
 ];
+
+function getSafeImageUrl(image: ChurchEvent["image"] | undefined, fallback: string): string {
+  if (!image || !image.url || image.url.includes('placeholder')) return fallback;
+  const url = getStrapiImageUrl(image);
+  if (url.startsWith('http://')) return fallback;
+  return url;
+}
 
 interface EventsProps {
   events?: ChurchEvent[];
@@ -34,11 +44,11 @@ interface EventsProps {
 
 export function Events({ events }: EventsProps) {
   const items = events && events.length > 0
-    ? events.map((e) => ({
+    ? events.map((e, i) => ({
         date: e.displayDate,
         title: e.title,
         description: e.description,
-        image: e.image ? getStrapiImageUrl(e.image) : fallbackEvents[0].image,
+        image: getSafeImageUrl(e.image, fallbackImages[i % fallbackImages.length]),
       }))
     : fallbackEvents;
 

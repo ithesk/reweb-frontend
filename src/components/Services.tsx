@@ -1,29 +1,39 @@
 import type { Service } from "@/lib/types";
 import { getStrapiImageUrl } from "@/lib/api";
 
+const fallbackImages = [
+  "https://images.unsplash.com/photo-1762967022036-d9a86874183a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "https://images.unsplash.com/photo-1613256454413-02d1d8202de7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "https://images.unsplash.com/photo-1755718669605-e0c89e2ea60c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+];
+
 const fallbackServices = [
   {
     title: "Servicios Dominicales",
     description:
       "Cada domingo celebramos juntos con alabanza, oracion y la Palabra de Dios. Un espacio para encontrar esperanza.",
-    image:
-      "https://images.unsplash.com/photo-1762967022036-d9a86874183a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    image: fallbackImages[0],
   },
   {
     title: "Grupos de Vida",
     description:
       "Conectate en comunidad a traves de nuestros grupos pequenos. Un espacio intimo para crecer y compartir.",
-    image:
-      "https://images.unsplash.com/photo-1613256454413-02d1d8202de7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    image: fallbackImages[1],
   },
   {
     title: "Servicio Comunitario",
     description:
       "Impactamos nuestra ciudad sirviendo a los demas. Descubre como puedes marcar la diferencia.",
-    image:
-      "https://images.unsplash.com/photo-1755718669605-e0c89e2ea60c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    image: fallbackImages[2],
   },
 ];
+
+function getSafeImageUrl(image: Service["image"] | undefined, fallback: string): string {
+  if (!image || !image.url || image.url.includes('placeholder')) return fallback;
+  const url = getStrapiImageUrl(image);
+  if (url.startsWith('http://')) return fallback;
+  return url;
+}
 
 interface ServicesProps {
   services?: Service[];
@@ -31,10 +41,10 @@ interface ServicesProps {
 
 export function Services({ services }: ServicesProps) {
   const items = services && services.length > 0
-    ? services.map((s) => ({
+    ? services.map((s, i) => ({
         title: s.title,
         description: s.description,
-        image: s.image ? getStrapiImageUrl(s.image) : fallbackServices[0].image,
+        image: getSafeImageUrl(s.image, fallbackImages[i % fallbackImages.length]),
       }))
     : fallbackServices;
 

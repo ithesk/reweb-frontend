@@ -1,230 +1,256 @@
 "use client";
 
 import { useState } from "react";
-import { Search, ChevronDown, Loader2, CheckCircle, Copy, Check } from "lucide-react";
+import { ChevronLeft, Loader2, CheckCircle, Copy, Check, ChevronDown } from "lucide-react";
 
 const PAYPAL_URL = "https://www.paypal.com/paypalme/REVOLUCIONAIGLESIA";
-const amountOptions = ["$25", "$50", "$100", "$250"];
+
+type DonationType = "" | "diezmos" | "ofrendas";
+type PaymentMethod = "" | "paypal" | "transferencia";
+type Frequency = "normal" | "semanal" | "quincenal" | "mensual";
 
 export function DonarContent() {
-  const [selectedAmount, setSelectedAmount] = useState("");
+  const [step, setStep] = useState(1);
+  const [donationType, setDonationType] = useState<DonationType>("");
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("");
+
+  const handleSelectType = (type: DonationType) => {
+    setDonationType(type);
+    setStep(2);
+  };
+
+  const handleSelectPayment = (method: PaymentMethod) => {
+    setPaymentMethod(method);
+    setStep(3);
+  };
+
+  const handleBack = () => {
+    if (step === 3) {
+      setPaymentMethod("");
+      setStep(2);
+    } else if (step === 2) {
+      setDonationType("");
+      setStep(1);
+    }
+  };
+
+  const handleReset = () => {
+    setStep(1);
+    setDonationType("");
+    setPaymentMethod("");
+  };
+
+  const typeLabel = donationType === "diezmos" ? "Diezmos" : "Ofrendas";
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
-      {/* ── Desktop ── */}
-      <section className="hidden lg:block">
-        <header className="bg-[var(--bg-dark)] px-20 py-16">
-          <p className="mb-4 font-display text-[11px] font-bold tracking-[3px] text-[var(--brand-primary)]">
-            DONAR
-          </p>
-          <h1 className="max-w-[900px] font-display text-[56px] font-bold leading-[1.05] text-[var(--text-inverted)]">
-            Tu generosidad transforma vidas
-          </h1>
-          <p className="mt-4 max-w-[760px] font-body text-[18px] leading-[1.5] text-[var(--text-inverted)]/80">
-            Apoya la mision de Iglesia Revoluciona y se parte de cada historia de restauracion.
-          </p>
+      {/* Header */}
+      <header className="bg-[var(--bg-dark)] px-6 md:px-20 py-10 md:py-16">
+        <p className="mb-3 font-display text-[11px] font-bold tracking-[3px] text-[var(--brand-primary)]">
+          DONAR
+        </p>
+        <h1 className="max-w-[900px] font-display text-[32px] md:text-[56px] font-bold leading-[1.05] text-[var(--text-inverted)]">
+          Tu generosidad transforma vidas
+        </h1>
+        <p className="mt-3 max-w-[760px] font-body text-[14px] md:text-[18px] leading-[1.5] text-[var(--text-inverted)]/80">
+          Apoya la mision de Iglesia Revoluciona y se parte de cada historia de restauracion.
+        </p>
+      </header>
 
-          <div className="mt-6 flex gap-3">
-            <a
-              href="#donar-form"
-              className="rounded-[8px] bg-[var(--brand-primary)] px-8 py-[14px] font-display text-[14px] font-bold text-white hover:brightness-110 transition-all"
-            >
-              Donar ahora
-            </a>
-            <a
-              href="#impacto"
-              className="rounded-[8px] border-[1.5px] border-[var(--brand-primary)] px-8 py-[14px] font-display text-[14px] font-bold text-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-colors"
-            >
-              Ver impacto
-            </a>
-            <a
-              href={PAYPAL_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-[8px] bg-[var(--brand-primary)] px-8 py-[14px] font-display text-[14px] font-bold text-white hover:brightness-110 transition-all"
-            >
-              Ir a PayPal
-            </a>
-          </div>
-
-          <div className="mt-4 flex gap-2">
-            {amountOptions.map((a) => (
-              <button
-                key={a}
-                onClick={() => setSelectedAmount(a)}
-                className={`rounded-[8px] border-[1.5px] px-6 py-[14px] font-display text-[14px] font-bold transition-colors ${
-                  selectedAmount === a
-                    ? "border-[var(--brand-primary)] bg-[var(--brand-primary)] text-white"
-                    : "border-[var(--brand-primary)] text-[var(--brand-primary)] hover:bg-[var(--accent-glow)]"
-                }`}
-              >
-                {a}
-              </button>
+      {/* Wizard */}
+      <div className="px-5 md:px-[120px] py-10 md:py-14">
+        <div className="max-w-[640px] mx-auto">
+          {/* Progress */}
+          <div className="flex items-center gap-2 mb-8">
+            {[1, 2, 3].map((s) => (
+              <div key={s} className="flex items-center gap-2 flex-1">
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center font-display text-[13px] font-bold transition-colors ${
+                    step >= s
+                      ? "bg-[var(--brand-primary)] text-white"
+                      : "bg-[var(--border-subtle)] text-[var(--text-muted)]"
+                  }`}
+                >
+                  {s}
+                </div>
+                {s < 3 && (
+                  <div
+                    className={`flex-1 h-[2px] transition-colors ${
+                      step > s ? "bg-[var(--brand-primary)]" : "bg-[var(--border-subtle)]"
+                    }`}
+                  />
+                )}
+              </div>
             ))}
           </div>
-        </header>
 
-        <div className="flex gap-7 px-[120px] py-14">
-          <div id="donar-form" className="flex-1 rounded-[16px] bg-[var(--bg-surface)] p-7">
-            <h2 className="font-display text-[34px] font-bold text-[var(--text-primary)]">
-              Completa tu donacion
-            </h2>
-            <p className="mb-5 font-body text-[14px] text-[var(--text-secondary)]">
-              Elige un monto, agrega tus datos y finaliza en segundos.
-            </p>
-            <DonationForm initialAmount={selectedAmount} />
-          </div>
+          {/* Back button */}
+          {step > 1 && (
+            <button
+              onClick={handleBack}
+              className="flex items-center gap-1 mb-4 font-body text-[13px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Atras
+            </button>
+          )}
 
-          <aside id="impacto" className="w-[360px] space-y-4">
-            <h3 className="font-display text-[28px] font-bold text-[var(--text-primary)]">
-              Impacto reciente
-            </h3>
-            <ImpactCard title="Noche de Adoracion" date="MAR 15 · 7:00 PM" />
-            <ImpactCard title="Servicio Dominical" date="DOM · 10:00 AM" />
-          </aside>
+          {/* Step 1: Type */}
+          {step === 1 && (
+            <div className="rounded-[16px] bg-[var(--bg-surface)] p-6 md:p-8">
+              <h2 className="font-display text-[24px] md:text-[34px] font-bold text-[var(--text-primary)]">
+                ¿Que deseas dar?
+              </h2>
+              <p className="mt-1 mb-6 font-body text-[14px] text-[var(--text-secondary)]">
+                Selecciona el tipo de donacion.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button
+                  onClick={() => handleSelectType("diezmos")}
+                  className="flex flex-col items-center gap-3 rounded-[16px] border-[1.5px] border-[var(--border-subtle)] p-8 hover:border-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-all"
+                >
+                  <span className="font-display text-[32px]">🙏</span>
+                  <span className="font-display text-[20px] font-bold text-[var(--text-primary)]">Diezmos</span>
+                  <span className="font-body text-[13px] text-[var(--text-secondary)] text-center">
+                    Tu fidelidad honra a Dios y sostiene la obra.
+                  </span>
+                </button>
+                <button
+                  onClick={() => handleSelectType("ofrendas")}
+                  className="flex flex-col items-center gap-3 rounded-[16px] border-[1.5px] border-[var(--border-subtle)] p-8 hover:border-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-all"
+                >
+                  <span className="font-display text-[32px]">💛</span>
+                  <span className="font-display text-[20px] font-bold text-[var(--text-primary)]">Ofrendas</span>
+                  <span className="font-body text-[13px] text-[var(--text-secondary)] text-center">
+                    Una ofrenda voluntaria que impacta vidas.
+                  </span>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 2: Payment Method */}
+          {step === 2 && (
+            <div className="rounded-[16px] bg-[var(--bg-surface)] p-6 md:p-8">
+              <h2 className="font-display text-[24px] md:text-[34px] font-bold text-[var(--text-primary)]">
+                ¿Como deseas dar tu {typeLabel.toLowerCase()}?
+              </h2>
+              <p className="mt-1 mb-6 font-body text-[14px] text-[var(--text-secondary)]">
+                Elige tu metodo de pago preferido.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button
+                  onClick={() => handleSelectPayment("paypal")}
+                  className="flex flex-col items-center gap-3 rounded-[16px] border-[1.5px] border-[var(--border-subtle)] p-8 hover:border-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-all"
+                >
+                  <span className="font-display text-[32px]">💳</span>
+                  <span className="font-display text-[20px] font-bold text-[var(--text-primary)]">PayPal</span>
+                  <span className="font-body text-[13px] text-[var(--text-secondary)] text-center">
+                    Paga con tarjeta o saldo PayPal.
+                  </span>
+                </button>
+                <button
+                  onClick={() => handleSelectPayment("transferencia")}
+                  className="flex flex-col items-center gap-3 rounded-[16px] border-[1.5px] border-[var(--border-subtle)] p-8 hover:border-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-all"
+                >
+                  <span className="font-display text-[32px]">🏦</span>
+                  <span className="font-display text-[20px] font-bold text-[var(--text-primary)]">Transferencia</span>
+                  <span className="font-body text-[13px] text-[var(--text-secondary)] text-center">
+                    Transferencia bancaria a Banreservas.
+                  </span>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 3: Form */}
+          {step === 3 && (
+            <div className="rounded-[16px] bg-[var(--bg-surface)] p-6 md:p-8">
+              <h2 className="font-display text-[24px] md:text-[34px] font-bold text-[var(--text-primary)]">
+                Completa tu {typeLabel.toLowerCase()}
+              </h2>
+              <p className="mt-1 mb-6 font-body text-[14px] text-[var(--text-secondary)]">
+                {paymentMethod === "paypal"
+                  ? "Ingresa los datos y seras redirigido a PayPal."
+                  : "Ingresa los datos y realiza tu transferencia."}
+              </p>
+
+              {paymentMethod === "transferencia" && (
+                <div className="rounded-[12px] bg-[var(--bg-primary)] p-4 mb-5 border border-[var(--border-subtle)]">
+                  <p className="font-display text-[13px] font-bold text-[var(--text-primary)] mb-2">
+                    Datos para transferencia
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <p className="font-body text-[14px]">
+                      <span className="font-semibold">Banreservas:</span> 9606691535
+                    </p>
+                    <CopyButton text="9606691535" />
+                  </div>
+                  <p className="font-body text-[14px] mt-1">
+                    <span className="font-semibold">RNC:</span> 430382507
+                  </p>
+                  <p className="font-body text-[12px] text-[var(--text-secondary)] mt-1">
+                    A nombre de Iglesia Revoluciona
+                  </p>
+                </div>
+              )}
+
+              <DonationForm
+                donationType={donationType}
+                paymentMethod={paymentMethod}
+                onSuccess={handleReset}
+              />
+            </div>
+          )}
         </div>
+      </div>
 
-        <section className="px-[120px] pb-14">
-          <h3 className="mb-4 font-display text-[24px] font-bold text-[var(--text-primary)]">
+      {/* FAQ */}
+      <div className="px-5 md:px-[120px] pb-14">
+        <div className="max-w-[640px] mx-auto">
+          <h3 className="mb-4 font-display text-[20px] md:text-[24px] font-bold text-[var(--text-primary)]">
             Preguntas frecuentes
           </h3>
-          <FaqItem q="¿Puedo donar una sola vez?" a="Si. Puedes apoyar con un aporte unico o configurar donaciones recurrentes." />
+          <FaqItem q="¿Cual es la diferencia entre diezmo y ofrenda?" a="El diezmo es el 10% de tus ingresos como acto de fidelidad. La ofrenda es un aporte voluntario adicional para apoyar la obra." />
+          <FaqItem q="¿Puedo dar de forma recurrente?" a="Si, puedes configurar tu donacion semanal, quincenal o mensual." />
           <FaqItem q="¿Mi donacion es segura?" a="Si, usamos pasarelas de pago seguras y certificadas para proteger tus datos." />
-          <FaqItem q="¿Puedo elegir el destino de mi donacion?" a="Si, puedes indicar el area o ministerio al que deseas destinar tu ofrenda." />
-        </section>
-
-        <section className="px-[120px] pb-14">
-          <h3 className="mb-4 font-display text-[24px] font-bold text-[var(--text-primary)]">
-            Cuentas para transferencias
-          </h3>
-          <div className="rounded-[16px] bg-[var(--bg-surface)] p-6">
-            <div className="flex flex-col gap-2">
-              <p className="font-body text-[15px]">
-                <span className="font-semibold">Banreservas:</span> 9606691535
-              </p>
-              <p className="font-body text-[15px]">
-                <span className="font-semibold">RNC:</span> 430382507
-              </p>
-              <p className="font-body text-[13px] text-[var(--text-secondary)] mt-1">
-                A nombre de Iglesia Revoluciona
-              </p>
-            </div>
-          </div>
-        </section>
-      </section>
-
-      {/* ── Mobile ── */}
-      <section className="lg:hidden">
-        <header className="bg-[var(--bg-dark)] px-5 py-7">
-          <p className="mb-3 font-display text-[11px] font-bold tracking-[3px] text-[var(--brand-primary)]">
-            DONAR
-          </p>
-          <h1 className="font-display text-[36px] font-bold leading-[1.05] text-[var(--text-inverted)]">
-            Tu donacion cambia historias
-          </h1>
-          <p className="mt-3 font-body text-[14px] leading-[1.5] text-[var(--text-inverted)]/80">
-            Apoya nuestra mision con una ofrenda segura y rapida.
-          </p>
-
-          <div className="mt-4 flex flex-wrap gap-2">
-            <a
-              href="#donar-form-mobile"
-              className="rounded-[8px] bg-[var(--brand-primary)] px-5 py-2.5 font-display text-[13px] font-bold text-white"
-            >
-              Donar ahora
-            </a>
-            <a
-              href={PAYPAL_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-[8px] bg-[var(--brand-primary)] px-5 py-2.5 font-display text-[13px] font-bold text-white"
-            >
-              Ir a PayPal
-            </a>
-          </div>
-
-          <div className="mt-3 flex flex-wrap gap-2">
-            {amountOptions.map((a) => (
-              <button
-                key={a}
-                onClick={() => setSelectedAmount(a)}
-                className={`rounded-[8px] border-[1.5px] px-4 py-2 font-display text-[13px] font-bold transition-colors ${
-                  selectedAmount === a
-                    ? "border-[var(--brand-primary)] bg-[var(--brand-primary)] text-white"
-                    : "border-[var(--brand-primary)] text-[var(--brand-primary)]"
-                }`}
-              >
-                {a}
-              </button>
-            ))}
-          </div>
-        </header>
-
-        <div className="space-y-6 p-5">
-          <div id="donar-form-mobile" className="rounded-[16px] bg-[var(--bg-surface)] p-5">
-            <h2 className="mb-3 font-display text-[28px] font-bold text-[var(--text-primary)]">
-              Completa tu donacion
-            </h2>
-            <DonationForm initialAmount={selectedAmount} />
-          </div>
-
-          <section>
-            <h3 className="mb-3 font-display text-[20px] font-bold text-[var(--text-primary)]">
-              Preguntas frecuentes
-            </h3>
-            <FaqItem q="¿Aceptan donaciones unicas?" a="Si, unicas o recurrentes." />
-            <FaqItem q="¿Puedo elegir destino?" a="Si, puedes indicar el area o ministerio." />
-          </section>
-
-          <section>
-            <h3 className="mb-3 font-display text-[20px] font-bold text-[var(--text-primary)]">
-              Cuentas para transferencias
-            </h3>
-            <div className="rounded-[16px] bg-[var(--bg-surface)] p-5">
-              <div className="flex items-center justify-between">
-                <p className="font-body text-[14px] font-semibold">Banreservas: 9606691535</p>
-                <CopyButton text="9606691535" />
-              </div>
-              <p className="font-body text-[14px] font-semibold mt-2">RNC: 430382507</p>
-              <p className="font-body text-[12px] text-[var(--text-secondary)] mt-1">
-                A nombre de Iglesia Revoluciona
-              </p>
-            </div>
-          </section>
-
-          <section>
-            <h3 className="mb-3 font-display text-[20px] font-bold text-[var(--text-primary)]">
-              Historias que apoyas
-            </h3>
-            <ImpactCard title="Noche de Adoracion" date="MAR 15 · 7:00 PM" />
-            <div className="mt-3" />
-            <ImpactCard title="Servicio Dominical" date="DOM · 10:00 AM" />
-          </section>
         </div>
-      </section>
+      </div>
     </div>
   );
 }
 
-function DonationForm({ initialAmount }: { initialAmount: string }) {
+function DonationForm({
+  donationType,
+  paymentMethod,
+  onSuccess,
+}: {
+  donationType: DonationType;
+  paymentMethod: PaymentMethod;
+  onSuccess: () => void;
+}) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [amount, setAmount] = useState("");
-  const [destination, setDestination] = useState("");
+  const [frequency, setFrequency] = useState<Frequency>("normal");
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-
-  const displayAmount = amount || initialAmount;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
-    if (!name.trim() || !email.trim()) {
-      setError("Nombre y correo son requeridos.");
+    if (!name.trim() || !email.trim() || !amount.trim()) {
+      setError("Nombre, correo y cantidad son requeridos.");
       return;
+    }
+
+    // PayPal: redirect
+    if (paymentMethod === "paypal") {
+      const cleanAmount = amount.replace(/[^0-9.]/g, "");
+      window.open(`${PAYPAL_URL}/${cleanAmount}`, "_blank");
     }
 
     setIsLoading(true);
@@ -236,8 +262,11 @@ function DonationForm({ initialAmount }: { initialAmount: string }) {
           name: name.trim(),
           email: email.trim(),
           phone: phone.trim(),
-          amount: displayAmount || undefined,
-          destination: destination.trim() || undefined,
+          amount: amount.trim(),
+          destination: donationType === "diezmos" ? "Diezmos" : "Ofrendas",
+          status: "pendiente",
+          frequency,
+          paymentMethod,
         }),
       });
 
@@ -247,13 +276,8 @@ function DonationForm({ initialAmount }: { initialAmount: string }) {
       }
 
       setSuccess(true);
-      setName("");
-      setEmail("");
-      setPhone("");
-      setAmount("");
-      setDestination("");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error al enviar la donacion");
+      setError(err instanceof Error ? err.message : "Error al registrar");
     } finally {
       setIsLoading(false);
     }
@@ -267,10 +291,15 @@ function DonationForm({ initialAmount }: { initialAmount: string }) {
           Gracias por tu generosidad
         </h3>
         <p className="font-body text-[14px] text-[var(--text-secondary)] text-center">
-          Tu donacion ha sido registrada. Nos pondremos en contacto contigo.
+          {paymentMethod === "paypal"
+            ? "Tu donacion fue registrada. Completa el pago en la ventana de PayPal."
+            : "Tu donacion fue registrada. Realiza la transferencia con los datos indicados."}
         </p>
         <button
-          onClick={() => setSuccess(false)}
+          onClick={() => {
+            setSuccess(false);
+            onSuccess();
+          }}
           className="rounded-[8px] border-[1.5px] border-[var(--brand-primary)] px-6 py-2.5 font-display text-[14px] font-bold text-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-colors"
         >
           Hacer otra donacion
@@ -286,6 +315,43 @@ function DonationForm({ initialAmount }: { initialAmount: string }) {
           {error}
         </div>
       )}
+
+      {/* Frequency */}
+      <div>
+        <p className="font-display text-[13px] font-bold text-[var(--text-primary)] mb-2">Frecuencia</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+          {([
+            { value: "normal", label: "Una vez" },
+            { value: "semanal", label: "Semanal" },
+            { value: "quincenal", label: "Quincenal" },
+            { value: "mensual", label: "Mensual" },
+          ] as { value: Frequency; label: string }[]).map((opt) => (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => setFrequency(opt.value)}
+              className={`rounded-[8px] border-[1.5px] px-3 py-2.5 font-display text-[13px] font-bold transition-colors ${
+                frequency === opt.value
+                  ? "border-[var(--brand-primary)] bg-[var(--brand-primary)] text-white"
+                  : "border-[var(--border-subtle)] text-[var(--text-secondary)] hover:border-[var(--brand-primary)]"
+              }`}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Amount */}
+      <input
+        placeholder="Cantidad (ej: 50)"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+        required
+        className="h-12 w-full rounded-[8px] border border-[var(--border-subtle)] bg-white px-4 font-body text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:border-[var(--brand-primary)] transition-colors"
+      />
+
+      {/* Personal info */}
       <input
         placeholder="Nombre completo"
         value={name}
@@ -302,49 +368,22 @@ function DonationForm({ initialAmount }: { initialAmount: string }) {
         className="h-12 w-full rounded-[8px] border border-[var(--border-subtle)] bg-white px-4 font-body text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:border-[var(--brand-primary)] transition-colors"
       />
       <input
-        placeholder="Telefono"
+        placeholder="Telefono (opcional)"
         type="tel"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
         className="h-12 w-full rounded-[8px] border border-[var(--border-subtle)] bg-white px-4 font-body text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:border-[var(--brand-primary)] transition-colors"
       />
-      <input
-        placeholder="Monto (ej: $50)"
-        value={displayAmount}
-        onChange={(e) => setAmount(e.target.value)}
-        className="h-12 w-full rounded-[8px] border border-[var(--border-subtle)] bg-white px-4 font-body text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:border-[var(--brand-primary)] transition-colors"
-      />
-      <input
-        placeholder="Destino de la donacion (opcional)"
-        value={destination}
-        onChange={(e) => setDestination(e.target.value)}
-        className="h-12 w-full rounded-[8px] border border-[var(--border-subtle)] bg-white px-4 font-body text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:border-[var(--brand-primary)] transition-colors"
-      />
+
       <button
         type="submit"
         disabled={isLoading}
-        className="rounded-[8px] bg-[var(--brand-primary)] px-6 py-3 font-display text-[14px] font-bold text-white hover:brightness-110 transition-all disabled:opacity-50 flex items-center gap-2"
+        className="w-full rounded-[8px] bg-[var(--brand-primary)] px-6 py-3 font-display text-[14px] font-bold text-white hover:brightness-110 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
       >
         {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
-        Confirmar donacion
+        {paymentMethod === "paypal" ? "Continuar a PayPal" : "Registrar donacion"}
       </button>
     </form>
-  );
-}
-
-function ImpactCard({ title, date }: { title: string; date: string }) {
-  return (
-    <article className="overflow-hidden rounded-[16px] bg-[var(--bg-surface)]">
-      <div className="h-[160px] bg-[var(--border-subtle)]" />
-      <div className="p-4">
-        <p className="font-display text-[11px] font-bold tracking-[2px] text-[var(--brand-primary)]">
-          {date}
-        </p>
-        <h4 className="font-display text-[18px] font-bold text-[var(--text-primary)]">
-          {title}
-        </h4>
-      </div>
-    </article>
   );
 }
 

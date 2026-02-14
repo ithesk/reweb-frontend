@@ -25,18 +25,44 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
 
   return (
     <nav className="relative flex items-center justify-between w-full h-[70px] md:h-[80px] px-6 md:px-10 lg:px-[80px] bg-[var(--bg-dark)]">
-      {/* Logo */}
-      <div className="flex items-center gap-3 h-full">
+      {/* Mobile: Hamburger left */}
+      <div className="flex md:hidden items-center">
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="flex items-center justify-center w-[40px] h-[40px]"
+          aria-label="Menu"
+        >
+          {menuOpen ? (
+            <X className="w-6 h-6 text-white" />
+          ) : (
+            <Menu className="w-6 h-6 text-white" />
+          )}
+        </button>
+      </div>
+
+      {/* Desktop: Logo left */}
+      <div className="hidden md:flex items-center gap-3 h-full">
         <Image
           src="/logo1.png"
           alt="Iglesia Revoluciona"
           width={110}
           height={110}
-          className="object-contain invert w-[80px] h-[80px] md:w-[110px] md:h-[110px]"
+          className="object-contain invert w-[110px] h-[110px]"
         />
       </div>
 
-      {/* Nav Links — desktop */}
+      {/* Mobile: Logo center */}
+      <div className="flex md:hidden items-center justify-center absolute left-1/2 -translate-x-1/2 h-full">
+        <Image
+          src="/logo1.png"
+          alt="Iglesia Revoluciona"
+          width={80}
+          height={80}
+          className="object-contain invert w-[70px] h-[70px]"
+        />
+      </div>
+
+      {/* Desktop: Nav Links */}
       <div className="hidden md:flex items-center gap-10 h-full">
         {navLinks.map((link) => (
           <a
@@ -49,35 +75,16 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
         ))}
       </div>
 
-      {/* Search + Profile — desktop */}
+      {/* Desktop: Search + Profile */}
       <div className="hidden md:flex items-center gap-4 h-full">
         <SearchOverlay placeholder={searchPlaceholder} />
         <UserMenu />
       </div>
 
-      {/* Donar + Hamburger — mobile */}
-      <div className="flex md:hidden items-center gap-3">
-        {navLinks.find((l) => l.label.toLowerCase() === "donar") && (
-          <a
-            href={navLinks.find((l) => l.label.toLowerCase() === "donar")!.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center h-[36px] px-4 rounded-full bg-white font-body text-[13px] font-semibold text-black"
-          >
-            Donar
-          </a>
-        )}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="flex items-center justify-center w-[40px] h-[40px]"
-          aria-label="Menu"
-        >
-          {menuOpen ? (
-            <X className="w-6 h-6 text-white" />
-          ) : (
-            <Menu className="w-6 h-6 text-white" />
-          )}
-        </button>
+      {/* Mobile: Search + Profile right */}
+      <div className="flex md:hidden items-center gap-2">
+        <SearchOverlay placeholder={searchPlaceholder} className="w-[36px]" compact />
+        <UserMenu />
       </div>
 
       {/* Mobile Menu */}
@@ -93,10 +100,6 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
               {link.label}
             </a>
           ))}
-          <div className="flex items-center gap-4 px-6 py-4 border-t border-white/10">
-            <SearchOverlay placeholder={searchPlaceholder} className="flex-1" />
-            <UserMenu />
-          </div>
         </div>
       )}
     </nav>

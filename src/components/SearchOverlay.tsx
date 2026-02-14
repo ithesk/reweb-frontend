@@ -49,22 +49,26 @@ function ResultGroup({
 interface SearchOverlayProps {
   placeholder?: string;
   className?: string;
+  compact?: boolean;
 }
 
-export function SearchOverlay({ placeholder = "Buscar", className }: SearchOverlayProps) {
+export function SearchOverlay({ placeholder = "Buscar", className, compact }: SearchOverlayProps) {
   const { query, setQuery, results, isSearching, clearSearch } = useSearch();
   const [isOpen, setIsOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setIsOpen(false);
+        if (compact && !query) setExpanded(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [compact, query]);
 
   const hasResults =
     results &&
@@ -74,9 +78,104 @@ export function SearchOverlay({ placeholder = "Buscar", className }: SearchOverl
 
   const showDropdown = isOpen && query.length >= 2;
 
+  // Compact mode: just show icon button, expand on click
+  if (compact && !expanded) {
+    return (
+      <button
+        onClick={() => {
+          setExpanded(true);
+          setTimeout(() => inputRef.current?.focus(), 100);
+        }}
+        className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-white/[0.08] hover:bg-white/[0.12] transition-colors"
+        aria-label="Buscar"
+      >
+        <Search className="w-[18px] h-[18px] text-[var(--text-inverted)]" />
+      </button>
+    );
+  }
+
+  // Compact expanded: full-screen search overlay on mobile
+  if (compact && expanded) {
+    return (
+      <div className="fixed inset-0 z-[60] bg-[var(--bg-dark)]" ref={containerRef}>
+        <div className="flex items-center gap-3 px-4 h-[60px] border-b border-white/10">
+          <Search className="w-[18px] h-[18px] text-[var(--text-muted)] shrink-0" />
+          <input
+            ref={inputRef}
+            type="text"
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setIsOpen(true);
+            }}
+            placeholder={placeholder}
+            className="bg-transparent border-none outline-none font-body text-[16px] text-[var(--text-inverted)] placeholder:text-[var(--text-muted)] w-full"
+            aria-label="Buscar contenido"
+            autoFocus
+          />
+          <button
+            onClick={() => {
+              clearSearch();
+              setIsOpen(false);
+              setExpanded(false);
+            }}
+            className="flex items-center justify-center w-[36px] h-[36px] rounded-full bg-white/[0.08]"
+          >
+            <X className="w-[18px] h-[18px] text-[var(--text-inverted)]" />
+          </button>
+        </div>
+
+        <div className="overflow-y-auto max-h-[calc(100vh-60px)]">
+          {isSearching && !results && (
+            <div className="flex items-center justify-center gap-2 p-6 text-[var(--text-muted)] font-body text-[14px]">
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Buscando...
+            </div>
+          )}
+          {query.length >= 2 && results && !hasResults && (
+            <div className="p-6 text-center text-[var(--text-muted)] font-body text-[14px]">
+              Sin resultados para &ldquo;{query}&rdquo;
+            </div>
+          )}
+          {results && results.services.length > 0 && (
+            <ResultGroup
+              label="Servicios"
+              results={results.services}
+              onSelect={() => {
+                clearSearch();
+                setExpanded(false);
+              }}
+            />
+          )}
+          {results && results.events.length > 0 && (
+            <ResultGroup
+              label="Eventos"
+              results={results.events}
+              onSelect={() => {
+                clearSearch();
+                setExpanded(false);
+              }}
+            />
+          )}
+          {results && results.pages.length > 0 && (
+            <ResultGroup
+              label="Paginas"
+              results={results.pages}
+              onSelect={() => {
+                clearSearch();
+                setExpanded(false);
+              }}
+            />
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Default desktop mode
   return (
     <div ref={containerRef} className={`relative ${className || ""}`}>
-      <div className={`flex items-center gap-[10px] ${className ? "w-full" : "w-[220px]"} h-[40px] rounded-[20px] bg-white/[0.08] px-4`}>
+      <div className="flex items-center gap-[10px] w-[220px] h-[40px] rounded-[20px] bg-white/[0.08] px-4">
         {isSearching ? (
           <Loader2 className="w-[18px] h-[18px] text-[var(--text-muted)] animate-spin shrink-0" />
         ) : (

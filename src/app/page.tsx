@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/Navbar";
+import { QuickActions } from "@/components/QuickActions";
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
 import { Services } from "@/components/Services";
@@ -57,6 +58,7 @@ export default async function Home() {
         links={navLinks}
         searchPlaceholder={settings?.searchPlaceholder}
       />
+      <QuickActions />
       <Hero
         welcomeLabel={hp?.hero?.title ? "BIENVENIDO A" : undefined}
         subtitle={hp?.hero?.subtitle}

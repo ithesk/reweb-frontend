@@ -25,11 +25,11 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
 
   return (
     <nav className="relative flex items-center justify-between w-full h-[70px] md:h-[80px] px-6 md:px-10 lg:px-[80px] bg-[var(--bg-dark)]">
-      {/* Mobile: Hamburger left */}
-      <div className="flex md:hidden items-center">
+      {/* Left: Hamburger (mobile) + Logo */}
+      <div className="flex items-center gap-1 h-full">
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="flex items-center justify-center w-[40px] h-[40px]"
+          className="flex md:hidden items-center justify-center w-[40px] h-[40px]"
           aria-label="Menu"
         >
           {menuOpen ? (
@@ -38,27 +38,12 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
             <Menu className="w-6 h-6 text-white" />
           )}
         </button>
-      </div>
-
-      {/* Desktop: Logo left */}
-      <div className="hidden md:flex items-center gap-3 h-full">
         <Image
           src="/logo1.png"
           alt="Iglesia Revoluciona"
           width={110}
           height={110}
-          className="object-contain invert w-[110px] h-[110px]"
-        />
-      </div>
-
-      {/* Mobile: Logo center */}
-      <div className="flex md:hidden items-center justify-center absolute left-1/2 -translate-x-1/2 h-full">
-        <Image
-          src="/logo1.png"
-          alt="Iglesia Revoluciona"
-          width={80}
-          height={80}
-          className="object-contain invert w-[70px] h-[70px]"
+          className="object-contain invert w-[60px] h-[60px] md:w-[110px] md:h-[110px]"
         />
       </div>
 

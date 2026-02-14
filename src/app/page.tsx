@@ -44,6 +44,7 @@ export default async function Home() {
     'populate[cta][populate]': 'buttonPrimary,buttonSecondary',
     'populate[servicesHeader]': '*',
     'populate[eventsHeader]': '*',
+    'populate[quickActions]': '*',
   });
   const homePageRes = await fetchStrapi(`/home-page?${hpParams.toString()}`);
   const hp = homePageRes?.data?.attributes;
@@ -58,7 +59,7 @@ export default async function Home() {
         links={navLinks}
         searchPlaceholder={settings?.searchPlaceholder}
       />
-      <QuickActions />
+      <QuickActions actions={hp?.quickActions} />
       <Hero
         welcomeLabel={hp?.hero?.title ? "BIENVENIDO A" : undefined}
         subtitle={hp?.hero?.subtitle}

@@ -1,29 +1,52 @@
 "use client";
 
-import { Play, Radio, MapPin, Heart, Users, Calendar } from "lucide-react";
+import { Radio, MapPin, Heart, Users, Calendar, Phone, HandHeart } from "lucide-react";
 import { useState } from "react";
 import { MapModal } from "./MapModal";
+import type { ElementType } from "react";
 
-const actions = [
-  { icon: Play, label: "Sermones", href: "#sermones" },
-  { icon: Radio, label: "Streaming", href: "#streaming" },
-  { icon: MapPin, label: "Ubicacion", href: "__map__" },
-  { icon: Heart, label: "Donar", href: "https://regiven.vercel.app/", external: true },
-  { icon: Users, label: "Grupos", href: "#grupos" },
-  { icon: Calendar, label: "Eventos", href: "#eventos" },
+const iconMap: Record<string, ElementType> = {
+  streaming: Radio,
+  ubicacion: MapPin,
+  donar: Heart,
+  grupos: Users,
+  eventos: Calendar,
+  contacto: Phone,
+  oracion: HandHeart,
+};
+
+export interface QuickAction {
+  label: string;
+  icon: string;
+  href: string;
+  isExternal?: boolean;
+  opensMap?: boolean;
+}
+
+const fallbackActions: QuickAction[] = [
+  { label: "Streaming", icon: "streaming", href: "#streaming" },
+  { label: "Ubicacion", icon: "ubicacion", href: "#", opensMap: true },
+  { label: "Donar", icon: "donar", href: "https://regiven.vercel.app/", isExternal: true },
+  { label: "Grupos", icon: "grupos", href: "#grupos" },
+  { label: "Eventos", icon: "eventos", href: "#eventos" },
 ];
 
-export function QuickActions() {
+interface QuickActionsProps {
+  actions?: QuickAction[];
+}
+
+export function QuickActions({ actions }: QuickActionsProps) {
   const [mapOpen, setMapOpen] = useState(false);
+  const items = actions && actions.length > 0 ? actions : fallbackActions;
 
   return (
     <>
       <div className="flex md:hidden w-full overflow-x-auto bg-[var(--bg-dark)] border-t border-white/[0.06] scrollbar-none">
         <div className="flex items-center justify-between w-full min-w-max px-4 py-3 gap-2">
-          {actions.map((action) => {
-            const Icon = action.icon;
+          {items.map((action) => {
+            const Icon = iconMap[action.icon] || MapPin;
 
-            if (action.href === "__map__") {
+            if (action.opensMap) {
               return (
                 <button
                   key={action.label}
@@ -40,7 +63,7 @@ export function QuickActions() {
               <a
                 key={action.label}
                 href={action.href}
-                {...(action.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                {...(action.isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 className="flex flex-col items-center gap-1.5 min-w-[60px] px-2"
               >
                 <Icon className="w-[22px] h-[22px] text-white/70" strokeWidth={1.5} />

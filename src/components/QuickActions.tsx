@@ -57,8 +57,8 @@ export function QuickActions({ actions, streamingUrl }: QuickActionsProps) {
                   onClick={() => setMapOpen(true)}
                   className="flex flex-col items-center gap-1.5 min-w-[60px] px-2"
                 >
-                  <Icon className="w-[22px] h-[22px] text-white/70" strokeWidth={1.5} />
-                  <span className="font-body text-[10px] text-white/50">{action.label}</span>
+                  <Icon className="w-[22px] h-[22px] text-[var(--text-muted)]" strokeWidth={1.5} />
+                  <span className="font-body text-[10px] text-[var(--text-muted)] opacity-70">{action.label}</span>
                 </button>
               );
             }
@@ -70,8 +70,8 @@ export function QuickActions({ actions, streamingUrl }: QuickActionsProps) {
                   onClick={() => setStreamingOpen(true)}
                   className="flex flex-col items-center gap-1.5 min-w-[60px] px-2"
                 >
-                  <Icon className="w-[22px] h-[22px] text-white/70" strokeWidth={1.5} />
-                  <span className="font-body text-[10px] text-white/50">{action.label}</span>
+                  <Icon className="w-[22px] h-[22px] text-[var(--text-muted)]" strokeWidth={1.5} />
+                  <span className="font-body text-[10px] text-[var(--text-muted)] opacity-70">{action.label}</span>
                 </button>
               );
             }
@@ -83,8 +83,8 @@ export function QuickActions({ actions, streamingUrl }: QuickActionsProps) {
                 {...(action.isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 className="flex flex-col items-center gap-1.5 min-w-[60px] px-2"
               >
-                <Icon className="w-[22px] h-[22px] text-white/70" strokeWidth={1.5} />
-                <span className="font-body text-[10px] text-white/50">{action.label}</span>
+                <Icon className="w-[22px] h-[22px] text-[var(--text-muted)]" strokeWidth={1.5} />
+                <span className="font-body text-[10px] text-[var(--text-muted)] opacity-70">{action.label}</span>
               </a>
             );
           })}

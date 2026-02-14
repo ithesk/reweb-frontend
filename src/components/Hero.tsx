@@ -142,12 +142,38 @@ export function Hero({
 
               {/* Content */}
               <div className="relative flex flex-col justify-end h-full px-6 pb-6 gap-3">
-                <h2 className="font-display text-[28px] font-extrabold text-white tracking-[-1px] leading-[1.1]">
-                  {slide.title}
-                </h2>
-                <p className="font-body text-[14px] text-white/70 leading-[1.5]">
-                  {slide.subtitle}
-                </p>
+                {i === 0 ? (
+                  <>
+                    <span className="font-display text-[12px] font-semibold text-white/70 tracking-[4px]">
+                      {welcomeLabel}
+                    </span>
+                    <div className="flex flex-col -mt-1">
+                      <span className="font-display text-[24px] font-light text-white tracking-[-0.5px]">
+                        {titleLine1}
+                      </span>
+                      <div className="flex items-end">
+                        <span className="font-display text-[56px] font-black text-white tracking-[-3px] leading-[0.85]">
+                          {titleBoldPart}
+                        </span>
+                        <span className="font-display text-[56px] font-light text-white tracking-[-3px] leading-[0.85]">
+                          {titleLightPart}
+                        </span>
+                      </div>
+                    </div>
+                    <p className="font-body text-[14px] text-white/70 leading-[1.5]">
+                      {subtitle}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <h2 className="font-display text-[28px] font-extrabold text-white tracking-[-1px] leading-[1.1]">
+                      {slide.title}
+                    </h2>
+                    <p className="font-body text-[14px] text-white/70 leading-[1.5]">
+                      {slide.subtitle}
+                    </p>
+                  </>
+                )}
 
                 {/* CTAs */}
                 <div className="flex flex-col gap-2.5 mt-1">

@@ -45,6 +45,7 @@ export default async function Home() {
     'populate[servicesHeader]': '*',
     'populate[eventsHeader]': '*',
     'populate[quickActions]': '*',
+    'populate[connectCards][populate]': 'image',
   });
   const homePageRes = await fetchStrapi(`/home-page?${hpParams.toString()}`);
   const hp = homePageRes?.data?.attributes;
@@ -68,7 +69,18 @@ export default async function Home() {
         ctaSecondaryLabel={hp?.hero?.ctaSecondary?.label}
         ctaSecondaryHref={hp?.hero?.ctaSecondary?.href}
       />
-      <ConnectSection />
+      <ConnectSection
+        title={hp?.connectTitle}
+        description={hp?.connectDescription}
+        cards={hp?.connectCards?.map((c: any) => ({
+          title: c.title,
+          subtitle: c.subtitle || '',
+          image: c.image?.data?.attributes?.url
+            ? `${STRAPI_URL}${c.image.data.attributes.url}`
+            : '',
+          href: c.href,
+        }))}
+      />
       <Services
         services={services}
         headerLabel={hp?.servicesHeader?.label}

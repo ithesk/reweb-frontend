@@ -74,7 +74,7 @@ export function Footer({
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 md:gap-[80px]">
           {cols.map((col) => (
             <div key={col.title} className="flex flex-col gap-4">
-              <h4 className="font-display text-[12px] font-bold text-[var(--text-inverted)] tracking-[2px]">
+              <h4 className="font-display text-[12px] font-bold text-[var(--brand-primary)] tracking-[2px]">
                 {col.title}
               </h4>
               {col.links.map((link) => (

@@ -85,9 +85,9 @@ export function Hero({
           className="absolute inset-0 opacity-50 bg-cover bg-center"
           style={{ backgroundImage: `url('${backgroundImage}')` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, #0A0A0AEE 0%, #0A0A0A44 35%, #0A0A0A22 60%, #0A0A0ABB 100%)' }} />
         <div className="relative flex flex-col justify-center h-full px-10 lg:px-[80px] gap-8">
-          <span className="font-display text-[16px] font-semibold text-white tracking-[4px]">
+          <span className="font-display text-[16px] font-semibold text-[var(--brand-primary)] tracking-[4px]">
             {welcomeLabel}
           </span>
           <div className="flex flex-col">
@@ -109,13 +109,13 @@ export function Hero({
           <div className="flex flex-row gap-4">
             <a
               href={ctaPrimaryHref}
-              className="flex items-center justify-center px-10 py-4 rounded-full bg-white font-display text-[16px] font-bold text-black hover:bg-white/90 transition-colors"
+              className="flex items-center justify-center px-10 py-4 rounded-full bg-[var(--brand-primary)] font-display text-[16px] font-bold text-[var(--bg-dark)] hover:brightness-110 transition-all"
             >
               {ctaPrimaryLabel}
             </a>
             <a
               href={ctaSecondaryHref}
-              className="flex items-center justify-center px-10 py-4 rounded-full border-2 border-white font-display text-[16px] font-medium text-white hover:bg-white/10 transition-colors"
+              className="flex items-center justify-center px-10 py-4 rounded-full border-2 border-[var(--brand-primary)] font-display text-[16px] font-medium text-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-colors"
             >
               {ctaSecondaryLabel}
             </a>
@@ -138,13 +138,13 @@ export function Hero({
                 className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: `url('${slide.backgroundImage}')` }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, #0A0A0AEE 0%, #0A0A0A44 35%, #0A0A0A22 60%, #0A0A0ABB 100%)' }} />
 
               {/* Content */}
               <div className="relative flex flex-col justify-end h-full px-6 pb-6 gap-3">
                 {i === 0 ? (
                   <>
-                    <span className="font-display text-[12px] font-semibold text-white/70 tracking-[4px]">
+                    <span className="font-display text-[12px] font-semibold text-[var(--brand-primary)] tracking-[4px]">
                       {welcomeLabel}
                     </span>
                     <div className="flex flex-col -mt-1">
@@ -180,7 +180,7 @@ export function Hero({
                   {slide.ctaLabel && (
                     <a
                       href={slide.ctaHref || "#"}
-                      className="flex items-center justify-center w-full py-3.5 rounded-full bg-white font-display text-[14px] font-bold text-black"
+                      className="flex items-center justify-center w-full py-3.5 rounded-full bg-[var(--brand-primary)] font-display text-[14px] font-bold text-[var(--bg-dark)]"
                     >
                       {slide.ctaLabel}
                     </a>
@@ -188,7 +188,7 @@ export function Hero({
                   {slide.ctaSecondaryLabel && (
                     <a
                       href={slide.ctaSecondaryHref || "#"}
-                      className="flex items-center justify-center w-full py-3.5 rounded-full border border-white/40 font-display text-[14px] font-medium text-white/80"
+                      className="flex items-center justify-center w-full py-3.5 rounded-full border-2 border-[var(--brand-primary)] font-display text-[14px] font-medium text-[var(--brand-primary)]"
                     >
                       {slide.ctaSecondaryLabel}
                     </a>
@@ -228,7 +228,7 @@ export function Hero({
                 onClick={() => setCurrent(i)}
                 className={`w-[8px] h-[8px] rounded-full transition-all ${
                   i === current
-                    ? "bg-white w-[20px]"
+                    ? "bg-[var(--brand-primary)] w-[20px]"
                     : "bg-white/30"
                 }`}
                 aria-label={`Slide ${i + 1}`}

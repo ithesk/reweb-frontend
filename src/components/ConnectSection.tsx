@@ -151,7 +151,7 @@ export function ConnectSection({
             onClick={() => scrollToIndex(i)}
             className={`h-[8px] rounded-full transition-all duration-300 ${
               i === activeIndex
-                ? "bg-[var(--text-primary)] w-[20px]"
+                ? "bg-[var(--brand-primary)] w-[20px]"
                 : "bg-[var(--text-muted)]/30 w-[8px]"
             }`}
             aria-label={`Tarjeta ${i + 1}`}

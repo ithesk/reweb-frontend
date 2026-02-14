@@ -63,7 +63,7 @@ export function Events({
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between w-full gap-4">
         <div className="flex flex-col gap-4">
-          <span className="font-display text-[12px] font-bold text-[var(--text-secondary)] tracking-[3px]">
+          <span className="font-display text-[12px] font-bold text-[var(--brand-primary)] tracking-[3px]">
             {headerLabel}
           </span>
           <h2 className="font-display text-[32px] md:text-[40px] lg:text-[48px] font-extrabold text-[var(--text-primary)] tracking-[-1px]">
@@ -72,7 +72,7 @@ export function Events({
         </div>
         <a
           href="#eventos"
-          className="font-body text-[14px] font-semibold text-[var(--text-primary)] hover:opacity-70 transition-opacity"
+          className="font-body text-[14px] font-semibold text-[var(--brand-primary)] hover:opacity-70 transition-opacity"
         >
           Ver todos →
         </a>
@@ -83,14 +83,14 @@ export function Events({
         {items.map((event) => (
           <div
             key={event.title}
-            className="flex flex-col rounded-[16px] bg-[var(--bg-primary)] overflow-hidden"
+            className="flex flex-col rounded-[20px] bg-[var(--bg-primary)] overflow-hidden shadow-[0_4px_20px_#00000008]"
           >
             <div
               className="w-full h-[200px] md:h-[220px] bg-cover bg-center"
               style={{ backgroundImage: `url('${event.image}')` }}
             />
             <div className="flex flex-col gap-2 p-6 md:p-7 w-full">
-              <span className="font-display text-[12px] font-bold text-[var(--text-secondary)] tracking-[2px]">
+              <span className="font-display text-[12px] font-bold text-[var(--brand-primary)] tracking-[2px]">
                 {event.date}
               </span>
               <h3 className="font-display text-[18px] md:text-[20px] font-extrabold text-[var(--text-primary)]">

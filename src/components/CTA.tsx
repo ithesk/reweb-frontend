@@ -33,7 +33,7 @@ export function CTA({
         />
 
         {/* Radial Overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0.87)_0%,_rgba(0,0,0,1)_100%)]" />
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(circle, #0A0A0A99 0%, #0A0A0ADD 100%)' }} />
 
         {/* Content */}
         <div className="relative flex flex-col items-center justify-center h-full px-6 md:px-10 lg:px-[80px] gap-6 md:gap-8">
@@ -46,13 +46,13 @@ export function CTA({
           <div className="flex flex-col sm:flex-row gap-4">
             <button
               onClick={() => setMapOpen(true)}
-              className="flex items-center justify-center px-8 md:px-12 py-4 rounded-full bg-[var(--bg-primary)] font-display text-[14px] md:text-[16px] font-bold text-[var(--text-primary)] hover:bg-white/90 transition-colors cursor-pointer"
+              className="flex items-center justify-center px-8 md:px-12 py-4 rounded-full bg-[var(--brand-primary)] font-display text-[14px] md:text-[16px] font-bold text-[var(--bg-dark)] hover:brightness-110 transition-all cursor-pointer"
             >
               {buttonPrimaryLabel}
             </button>
             <a
               href={buttonSecondaryHref}
-              className="flex items-center justify-center px-8 md:px-12 py-4 rounded-full border border-white/40 font-display text-[14px] md:text-[16px] font-medium text-white/80 hover:bg-white/10 transition-colors"
+              className="flex items-center justify-center px-8 md:px-12 py-4 rounded-full border-2 border-[var(--brand-primary)] font-display text-[14px] md:text-[16px] font-medium text-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-colors"
             >
               {buttonSecondaryLabel}
             </a>

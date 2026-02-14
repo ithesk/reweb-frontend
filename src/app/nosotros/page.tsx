@@ -53,7 +53,7 @@ export default async function NosotrosPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/90" />
         <div className="relative flex flex-col items-center justify-center px-6 md:px-10 lg:px-[80px] gap-4">
-          <span className="font-display text-[12px] font-bold text-white/50 tracking-[3px]">
+          <span className="font-display text-[12px] font-bold text-[var(--brand-primary)] tracking-[3px]">
             {label}
           </span>
           <h1 className="font-display text-[36px] md:text-[48px] lg:text-[64px] font-extrabold text-white tracking-[-1.5px] text-center">
@@ -88,7 +88,7 @@ export default async function NosotrosPage() {
               </div>
             </div>
           </div>
-          <div className="w-full lg:flex-1 h-[300px] md:h-[400px] lg:h-[500px] rounded-2xl overflow-hidden">
+          <div className="w-full lg:flex-1 h-[300px] md:h-[400px] lg:h-[500px] rounded-[20px] overflow-hidden shadow-[0_8px_40px_#D4A05320]">
             <div
               className="w-full h-full bg-cover bg-center"
               style={{ backgroundImage: `url('${image}')` }}

@@ -63,7 +63,7 @@ export function Services({
     >
       {/* Header */}
       <div className="flex flex-col items-center gap-4 max-w-[700px]">
-        <span className="font-display text-[12px] font-bold text-[var(--text-muted)] tracking-[3px]">
+        <span className="font-display text-[12px] font-bold text-[var(--brand-primary)] tracking-[3px]">
           {headerLabel}
         </span>
         <h2 className="font-display text-[32px] md:text-[40px] lg:text-[48px] font-extrabold text-[var(--text-inverted)] tracking-[-1px] text-center">
@@ -79,13 +79,14 @@ export function Services({
         {items.map((service) => (
           <div
             key={service.title}
-            className="flex flex-col rounded-[16px] bg-[var(--bg-elevated)] overflow-hidden"
+            className="flex flex-col rounded-[20px] bg-[var(--bg-elevated)] overflow-hidden shadow-[0_4px_24px_#00000020]"
           >
             <div
               className="w-full h-[200px] md:h-[240px] bg-cover bg-center"
               style={{ backgroundImage: `url('${service.image}')` }}
             />
             <div className="flex flex-col gap-3 p-6 md:p-7 w-full">
+              <div className="w-[36px] h-[3px] bg-[var(--brand-primary)] rounded-full" />
               <h3 className="font-display text-[20px] md:text-[22px] font-extrabold text-[var(--text-inverted)]">
                 {service.title}
               </h3>

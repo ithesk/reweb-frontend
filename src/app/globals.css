@@ -1,18 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #F7F7F8;
-  --bg-dark: #000000;
-  --bg-surface: #F5F5F5;
-  --bg-elevated: #1A1A1A;
-  --bg-muted: #111111;
-  --text-primary: #000000;
-  --text-inverted: #FFFFFF;
+  --brand-primary: #D4A053;
+  --brand-light: #F8F5F0;
+  --accent-glow: #D4A05330;
+  --bg-primary: #FAFAF8;
+  --bg-dark: #0A0A0A;
+  --bg-surface: #F0EDE8;
+  --bg-elevated: #1A1815;
+  --bg-muted: #121110;
+  --text-primary: #1A1A1A;
+  --text-inverted: #F8F5F0;
   --text-secondary: #71717A;
-  --text-muted: #A1A1AA;
-  --accent: #E5E5E5;
-  --border-subtle: #E4E4E7;
-  --border-strong: #27272A;
+  --text-muted: #8A8578;
+  --accent: #D4A053;
+  --border-subtle: #E4E0D8;
+  --border-strong: #2A2722;
 }
 
 @layer base {

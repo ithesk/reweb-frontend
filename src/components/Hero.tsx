@@ -109,13 +109,13 @@ export function Hero({
           <div className="flex flex-row gap-4">
             <a
               href={ctaPrimaryHref}
-              className="flex items-center justify-center px-10 py-4 rounded-full bg-[var(--brand-primary)] font-display text-[16px] font-bold text-[var(--bg-dark)] hover:brightness-110 transition-all"
+              className="flex items-center justify-center px-10 py-4 rounded-[8px] bg-[var(--brand-primary)] font-display text-[16px] font-bold text-white hover:brightness-110 transition-all"
             >
               {ctaPrimaryLabel}
             </a>
             <a
               href={ctaSecondaryHref}
-              className="flex items-center justify-center px-10 py-4 rounded-full border-2 border-[var(--brand-primary)] font-display text-[16px] font-medium text-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-colors"
+              className="flex items-center justify-center px-10 py-4 rounded-[8px] border-[1.5px] border-[var(--brand-primary)] font-display text-[16px] font-medium text-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-colors"
             >
               {ctaSecondaryLabel}
             </a>
@@ -180,7 +180,7 @@ export function Hero({
                   {slide.ctaLabel && (
                     <a
                       href={slide.ctaHref || "#"}
-                      className="flex items-center justify-center w-full py-3.5 rounded-full bg-[var(--brand-primary)] font-display text-[14px] font-bold text-[var(--bg-dark)]"
+                      className="flex items-center justify-center w-full py-3.5 rounded-[8px] bg-[var(--brand-primary)] font-display text-[14px] font-bold text-white"
                     >
                       {slide.ctaLabel}
                     </a>
@@ -188,7 +188,7 @@ export function Hero({
                   {slide.ctaSecondaryLabel && (
                     <a
                       href={slide.ctaSecondaryHref || "#"}
-                      className="flex items-center justify-center w-full py-3.5 rounded-full border-2 border-[var(--brand-primary)] font-display text-[14px] font-medium text-[var(--brand-primary)]"
+                      className="flex items-center justify-center w-full py-3.5 rounded-[8px] border-[1.5px] border-[var(--brand-primary)] font-display text-[14px] font-medium text-[var(--brand-primary)]"
                     >
                       {slide.ctaSecondaryLabel}
                     </a>

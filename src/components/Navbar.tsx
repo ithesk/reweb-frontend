@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import Image from "next/image";
 import type { NavLink } from "@/lib/types";
 import { SearchOverlay } from "./SearchOverlay";
 import { UserMenu } from "./UserMenu";
@@ -27,17 +27,29 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
   return (
     <>
       <nav className="relative flex items-center justify-between w-full h-[70px] md:h-[80px] px-6 md:px-10 lg:px-[80px] bg-[var(--bg-dark)]">
-        {/* Desktop: Brand text */}
-        <span className="hidden md:block font-display text-[18px] font-extrabold text-[var(--text-inverted)] tracking-[-0.5px] whitespace-nowrap">
-          IGLESIA REVOLUCIONA
-        </span>
+        {/* Desktop: Logo */}
+        <a href="/" className="hidden md:block">
+          <Image
+            src="/Artboard 1 copy.png"
+            alt="Iglesia Revoluciona"
+            width={180}
+            height={40}
+            className="object-contain h-[36px] w-auto invert"
+            priority
+          />
+        </a>
 
-        {/* Mobile: Brand text + hamburger right */}
-        <div className="flex md:hidden items-center gap-1 h-full">
-          <span className="font-display text-[15px] font-extrabold text-[var(--text-inverted)] tracking-[-0.3px]">
-            REVOLUCIONA
-          </span>
-        </div>
+        {/* Mobile: Logo */}
+        <a href="/" className="flex md:hidden items-center h-full">
+          <Image
+            src="/logo1.png"
+            alt="Iglesia Revoluciona"
+            width={32}
+            height={32}
+            className="object-contain w-[28px] h-[28px] invert"
+            priority
+          />
+        </a>
 
         {/* Desktop: Nav Links + Visitanos */}
         <div className="hidden md:flex items-center gap-8 h-full">
@@ -52,7 +64,7 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
           ))}
           <button
             onClick={() => setMapOpen(true)}
-            className="flex items-center justify-center px-6 py-2.5 rounded-full bg-[var(--brand-primary)] font-display text-[13px] font-bold text-[var(--bg-dark)] hover:brightness-110 transition-all cursor-pointer"
+            className="flex items-center justify-center px-6 py-2.5 rounded-[6px] bg-[var(--brand-primary)] font-display text-[13px] font-bold text-white hover:brightness-110 transition-all cursor-pointer"
           >
             Visitanos
           </button>
@@ -64,21 +76,19 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
         <div className="flex md:hidden items-center gap-3">
           <button
             onClick={() => setMapOpen(true)}
-            className="flex items-center justify-center px-4 py-2 rounded-full bg-[var(--brand-primary)] font-display text-[11px] font-bold text-[var(--bg-dark)] cursor-pointer"
+            className="flex items-center justify-center px-4 py-2 rounded-[6px] bg-[var(--brand-primary)] font-display text-[11px] font-bold text-white cursor-pointer"
           >
             Visitanos
           </button>
           <SearchOverlay placeholder={searchPlaceholder} className="w-[36px]" compact />
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="flex items-center justify-center w-[36px] h-[36px]"
+            className="flex flex-col items-center justify-center gap-[5px] w-[36px] h-[36px]"
             aria-label="Menu"
           >
-            {menuOpen ? (
-              <X className="w-6 h-6 text-[var(--text-inverted)]" />
-            ) : (
-              <Menu className="w-6 h-6 text-[var(--text-inverted)]" />
-            )}
+            <span className={`block w-[20px] h-[2px] bg-[var(--text-inverted)] transition-all ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
+            <span className={`block w-[20px] h-[2px] bg-[var(--text-inverted)] transition-all ${menuOpen ? "opacity-0" : ""}`} />
+            <span className={`block w-[20px] h-[2px] transition-all ${menuOpen ? "-rotate-45 -translate-y-[7px] bg-[var(--text-inverted)]" : "bg-[var(--brand-primary)]"}`} />
           </button>
         </div>
 

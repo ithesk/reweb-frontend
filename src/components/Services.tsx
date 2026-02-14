@@ -79,7 +79,7 @@ export function Services({
         {items.map((service) => (
           <div
             key={service.title}
-            className="flex flex-col rounded-[20px] bg-[var(--bg-elevated)] overflow-hidden shadow-[0_4px_24px_#00000020]"
+            className="flex flex-col rounded-[16px] bg-[var(--bg-surface)] overflow-hidden shadow-[0_4px_24px_#00000008]"
           >
             <div
               className="w-full h-[200px] md:h-[240px] bg-cover bg-center"
@@ -87,10 +87,10 @@ export function Services({
             />
             <div className="flex flex-col gap-3 p-6 md:p-7 w-full">
               <div className="w-[36px] h-[3px] bg-[var(--brand-primary)] rounded-full" />
-              <h3 className="font-display text-[20px] md:text-[22px] font-extrabold text-[var(--text-inverted)]">
+              <h3 className="font-display text-[20px] md:text-[22px] font-extrabold text-[var(--text-primary)]">
                 {service.title}
               </h3>
-              <p className="font-body text-[14px] text-[var(--text-muted)] leading-[1.5]">
+              <p className="font-body text-[14px] text-[var(--text-secondary)] leading-[1.5]">
                 {service.description}
               </p>
               <span className="font-body text-[13px] font-semibold text-[var(--brand-primary)] mt-1">

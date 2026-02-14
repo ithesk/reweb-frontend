@@ -23,10 +23,10 @@
     height: 100%;
   }
   .font-display {
-    font-family: "Outfit", sans-serif;
+    font-family: var(--font-outfit), "Outfit", sans-serif;
   }
   .font-body {
-    font-family: "Inter", sans-serif;
+    font-family: var(--font-inter), "Inter", sans-serif;
   }
 }
 

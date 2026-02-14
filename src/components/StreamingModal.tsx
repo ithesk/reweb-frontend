@@ -100,7 +100,7 @@ export function StreamingModal({
             href={fullYouTubeUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-600 font-body text-[13px] font-semibold text-white hover:bg-red-500 transition-colors"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-[8px] bg-red-600 font-body text-[13px] font-semibold text-white hover:bg-red-500 transition-colors"
           >
             <ExternalLink className="w-4 h-4" />
             Ver en YouTube

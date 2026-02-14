@@ -46,13 +46,13 @@ export function CTA({
           <div className="flex flex-col sm:flex-row gap-4">
             <button
               onClick={() => setMapOpen(true)}
-              className="flex items-center justify-center px-8 md:px-12 py-4 rounded-full bg-[var(--brand-primary)] font-display text-[14px] md:text-[16px] font-bold text-[var(--bg-dark)] hover:brightness-110 transition-all cursor-pointer"
+              className="flex items-center justify-center px-8 md:px-12 py-4 rounded-[8px] bg-[var(--brand-primary)] font-display text-[14px] md:text-[16px] font-bold text-white hover:brightness-110 transition-all cursor-pointer"
             >
               {buttonPrimaryLabel}
             </button>
             <a
               href={buttonSecondaryHref}
-              className="flex items-center justify-center px-8 md:px-12 py-4 rounded-full border-2 border-[var(--brand-primary)] font-display text-[14px] md:text-[16px] font-medium text-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-colors"
+              className="flex items-center justify-center px-8 md:px-12 py-4 rounded-[8px] border-[1.5px] border-[var(--brand-primary)] font-display text-[14px] md:text-[16px] font-medium text-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-colors"
             >
               {buttonSecondaryLabel}
             </a>

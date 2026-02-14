@@ -175,7 +175,7 @@ export function SearchOverlay({ placeholder = "Buscar", className, compact }: Se
   // Default desktop mode
   return (
     <div ref={containerRef} className={`relative ${className || ""}`}>
-      <div className="flex items-center gap-[10px] w-[220px] h-[40px] rounded-[20px] bg-white/[0.08] px-4">
+      <div className="flex items-center gap-[10px] w-[220px] h-[40px] rounded-[20px] bg-white/[0.08] px-4 transition-colors focus-within:ring-1 focus-within:ring-[var(--brand-primary)]">
         {isSearching ? (
           <Loader2 className="w-[18px] h-[18px] text-[var(--text-muted)] animate-spin shrink-0" />
         ) : (

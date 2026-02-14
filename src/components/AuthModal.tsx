@@ -112,7 +112,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
                 required
-                className="h-[44px] rounded-lg bg-white/[0.06] border border-white/10 px-4 font-body text-[14px] text-[var(--text-inverted)] placeholder:text-[var(--text-muted)] outline-none focus:border-white/25 transition-colors"
+                className="h-[44px] rounded-lg bg-white/[0.06] border border-white/10 px-4 font-body text-[14px] text-[var(--text-inverted)] placeholder:text-[var(--text-muted)] outline-none focus:border-[var(--brand-primary)] transition-colors"
                 placeholder="tu@email.com"
               />
             </div>
@@ -125,14 +125,14 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="h-[44px] rounded-lg bg-white/[0.06] border border-white/10 px-4 font-body text-[14px] text-[var(--text-inverted)] placeholder:text-[var(--text-muted)] outline-none focus:border-white/25 transition-colors"
+                className="h-[44px] rounded-lg bg-white/[0.06] border border-white/10 px-4 font-body text-[14px] text-[var(--text-inverted)] placeholder:text-[var(--text-muted)] outline-none focus:border-[var(--brand-primary)] transition-colors"
                 placeholder="Tu contrasena"
               />
             </div>
             <button
               type="submit"
               disabled={isLoading}
-              className="h-[44px] rounded-lg bg-white text-black font-body text-[14px] font-semibold hover:bg-white/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+              className="h-[44px] rounded-full bg-[var(--brand-primary)] text-[var(--bg-dark)] font-display text-[14px] font-bold hover:brightness-110 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
               Iniciar Sesion
@@ -149,7 +149,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
-                className="h-[44px] rounded-lg bg-white/[0.06] border border-white/10 px-4 font-body text-[14px] text-[var(--text-inverted)] placeholder:text-[var(--text-muted)] outline-none focus:border-white/25 transition-colors"
+                className="h-[44px] rounded-lg bg-white/[0.06] border border-white/10 px-4 font-body text-[14px] text-[var(--text-inverted)] placeholder:text-[var(--text-muted)] outline-none focus:border-[var(--brand-primary)] transition-colors"
                 placeholder="Tu nombre"
               />
             </div>
@@ -162,7 +162,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="h-[44px] rounded-lg bg-white/[0.06] border border-white/10 px-4 font-body text-[14px] text-[var(--text-inverted)] placeholder:text-[var(--text-muted)] outline-none focus:border-white/25 transition-colors"
+                className="h-[44px] rounded-lg bg-white/[0.06] border border-white/10 px-4 font-body text-[14px] text-[var(--text-inverted)] placeholder:text-[var(--text-muted)] outline-none focus:border-[var(--brand-primary)] transition-colors"
                 placeholder="tu@email.com"
               />
             </div>
@@ -175,7 +175,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="h-[44px] rounded-lg bg-white/[0.06] border border-white/10 px-4 font-body text-[14px] text-[var(--text-inverted)] placeholder:text-[var(--text-muted)] outline-none focus:border-white/25 transition-colors"
+                className="h-[44px] rounded-lg bg-white/[0.06] border border-white/10 px-4 font-body text-[14px] text-[var(--text-inverted)] placeholder:text-[var(--text-muted)] outline-none focus:border-[var(--brand-primary)] transition-colors"
                 placeholder="Minimo 6 caracteres"
               />
             </div>
@@ -188,14 +188,14 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                className="h-[44px] rounded-lg bg-white/[0.06] border border-white/10 px-4 font-body text-[14px] text-[var(--text-inverted)] placeholder:text-[var(--text-muted)] outline-none focus:border-white/25 transition-colors"
+                className="h-[44px] rounded-lg bg-white/[0.06] border border-white/10 px-4 font-body text-[14px] text-[var(--text-inverted)] placeholder:text-[var(--text-muted)] outline-none focus:border-[var(--brand-primary)] transition-colors"
                 placeholder="Repite tu contrasena"
               />
             </div>
             <button
               type="submit"
               disabled={isLoading}
-              className="h-[44px] rounded-lg bg-white text-black font-body text-[14px] font-semibold hover:bg-white/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+              className="h-[44px] rounded-full bg-[var(--brand-primary)] text-[var(--bg-dark)] font-display text-[14px] font-bold hover:brightness-110 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
               Crear Cuenta

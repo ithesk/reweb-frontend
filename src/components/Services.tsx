@@ -93,6 +93,9 @@ export function Services({
               <p className="font-body text-[14px] text-[var(--text-muted)] leading-[1.5]">
                 {service.description}
               </p>
+              <span className="font-body text-[13px] font-semibold text-[var(--brand-primary)] mt-1">
+                Mas info →
+              </span>
             </div>
           </div>
         ))}

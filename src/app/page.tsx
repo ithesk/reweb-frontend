@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/Navbar";
 import { QuickActions } from "@/components/QuickActions";
 import { Hero } from "@/components/Hero";
-import { About } from "@/components/About";
+import { ConnectSection } from "@/components/ConnectSection";
 import { Services } from "@/components/Services";
 import { Quote } from "@/components/Quote";
 import { Events } from "@/components/Events";
@@ -68,13 +68,7 @@ export default async function Home() {
         ctaSecondaryLabel={hp?.hero?.ctaSecondary?.label}
         ctaSecondaryHref={hp?.hero?.ctaSecondary?.href}
       />
-      <About
-        label={hp?.about?.label}
-        title={hp?.about?.title}
-        description={hp?.about?.description}
-        ctaLabel={hp?.about?.ctaLabel}
-        ctaHref={hp?.about?.ctaHref}
-      />
+      <ConnectSection />
       <Services
         services={services}
         headerLabel={hp?.servicesHeader?.label}

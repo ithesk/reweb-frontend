@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronLeft, Loader2, CheckCircle, Copy, Check, ChevronDown } from "lucide-react";
+import { ChevronLeft, Loader2, CheckCircle, Copy, Check, ChevronDown, Heart, Gift, CreditCard, Building2 } from "lucide-react";
 
 const PAYPAL_URL = "https://www.paypal.com/paypalme/REVOLUCIONAIGLESIA";
 
@@ -109,7 +109,7 @@ export function DonarContent() {
                   onClick={() => handleSelectType("diezmos")}
                   className="flex flex-col items-center gap-3 rounded-[16px] border-[1.5px] border-[var(--border-subtle)] p-8 hover:border-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-all"
                 >
-                  <span className="font-display text-[32px]">🙏</span>
+                  <Heart className="w-8 h-8 text-[var(--brand-primary)]" />
                   <span className="font-display text-[20px] font-bold text-[var(--text-primary)]">Diezmos</span>
                   <span className="font-body text-[13px] text-[var(--text-secondary)] text-center">
                     Tu fidelidad honra a Dios y sostiene la obra.
@@ -119,7 +119,7 @@ export function DonarContent() {
                   onClick={() => handleSelectType("ofrendas")}
                   className="flex flex-col items-center gap-3 rounded-[16px] border-[1.5px] border-[var(--border-subtle)] p-8 hover:border-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-all"
                 >
-                  <span className="font-display text-[32px]">💛</span>
+                  <Gift className="w-8 h-8 text-[var(--brand-primary)]" />
                   <span className="font-display text-[20px] font-bold text-[var(--text-primary)]">Ofrendas</span>
                   <span className="font-body text-[13px] text-[var(--text-secondary)] text-center">
                     Una ofrenda voluntaria que impacta vidas.
@@ -143,7 +143,7 @@ export function DonarContent() {
                   onClick={() => handleSelectPayment("paypal")}
                   className="flex flex-col items-center gap-3 rounded-[16px] border-[1.5px] border-[var(--border-subtle)] p-8 hover:border-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-all"
                 >
-                  <span className="font-display text-[32px]">💳</span>
+                  <CreditCard className="w-8 h-8 text-[var(--brand-primary)]" />
                   <span className="font-display text-[20px] font-bold text-[var(--text-primary)]">PayPal</span>
                   <span className="font-body text-[13px] text-[var(--text-secondary)] text-center">
                     Paga con tarjeta o saldo PayPal.
@@ -153,7 +153,7 @@ export function DonarContent() {
                   onClick={() => handleSelectPayment("transferencia")}
                   className="flex flex-col items-center gap-3 rounded-[16px] border-[1.5px] border-[var(--border-subtle)] p-8 hover:border-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-all"
                 >
-                  <span className="font-display text-[32px]">🏦</span>
+                  <Building2 className="w-8 h-8 text-[var(--brand-primary)]" />
                   <span className="font-display text-[20px] font-bold text-[var(--text-primary)]">Transferencia</span>
                   <span className="font-body text-[13px] text-[var(--text-secondary)] text-center">
                     Transferencia bancaria a Banreservas.

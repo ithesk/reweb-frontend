@@ -6,7 +6,7 @@ const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN || '';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, phone, amount, destination } = body;
+    const { name, email, phone, amount, destination, frequency, paymentMethod } = body;
 
     if (!name || !email) {
       return NextResponse.json(
@@ -22,7 +22,16 @@ export async function POST(request: NextRequest) {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        data: { name, email, phone, amount, destination, status: 'pendiente' },
+        data: {
+          name,
+          email,
+          phone,
+          amount,
+          destination,
+          frequency: frequency || 'normal',
+          paymentMethod: paymentMethod || 'transferencia',
+          status: 'pendiente',
+        },
       }),
     });
 

@@ -45,7 +45,7 @@ const fallbackCards: ConnectCard[] = [
       "Descubre como puedes marcar la diferencia sirviendo con tus dones y talentos.",
     image:
       "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600",
-    href: "https://regiven.vercel.app/",
+    href: "/donar",
   },
 ];
 

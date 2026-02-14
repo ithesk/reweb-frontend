@@ -28,7 +28,7 @@ export interface QuickAction {
 const fallbackActions: QuickAction[] = [
   { label: "Streaming", icon: "streaming", href: "#streaming", opensStreaming: true },
   { label: "Ubicacion", icon: "ubicacion", href: "#", opensMap: true },
-  { label: "Donar", icon: "donar", href: "https://regiven.vercel.app/", isExternal: true },
+  { label: "Donar", icon: "donar", href: "/donar" },
   { label: "Grupos", icon: "grupos", href: "#grupos" },
   { label: "Eventos", icon: "eventos", href: "#eventos" },
 ];

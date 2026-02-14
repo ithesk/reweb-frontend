@@ -46,6 +46,7 @@ export default async function Home() {
     'populate[eventsHeader]': '*',
     'populate[quickActions]': '*',
     'populate[connectCards][populate]': 'image',
+    'populate[heroSlides][populate]': 'image',
   });
   const homePageRes = await fetchStrapi(`/home-page?${hpParams.toString()}`);
   const hp = homePageRes?.data?.attributes;
@@ -68,6 +69,17 @@ export default async function Home() {
         ctaPrimaryHref={hp?.hero?.ctaPrimary?.href}
         ctaSecondaryLabel={hp?.hero?.ctaSecondary?.label}
         ctaSecondaryHref={hp?.hero?.ctaSecondary?.href}
+        slides={hp?.heroSlides?.map((s: any) => ({
+          title: s.title,
+          subtitle: s.subtitle || '',
+          backgroundImage: s.image?.data?.attributes?.url
+            ? `/api/media?path=${encodeURIComponent(s.image.data.attributes.url)}`
+            : '/Hero Background.png',
+          ctaLabel: s.ctaLabel,
+          ctaHref: s.ctaHref,
+          ctaSecondaryLabel: s.ctaSecondaryLabel,
+          ctaSecondaryHref: s.ctaSecondaryHref,
+        }))}
       />
       <ConnectSection
         title={hp?.connectTitle}

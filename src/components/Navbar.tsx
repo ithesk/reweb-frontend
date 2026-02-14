@@ -91,7 +91,7 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
           <UserMenu />
         </div>
 
-        {/* Mobile: Visitanos + Search */}
+        {/* Mobile: Visitanos + Search + User */}
         <div className="flex md:hidden items-center gap-3">
           <button
             onClick={() => setMapOpen(true)}
@@ -100,6 +100,7 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
             Visitanos
           </button>
           <SearchOverlay placeholder={searchPlaceholder} className="w-[36px]" compact />
+          <UserMenu />
         </div>
 
         {/* Mobile Menu */}

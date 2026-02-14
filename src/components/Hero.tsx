@@ -97,7 +97,6 @@ export function Hero({
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${videoPlaying ? "opacity-60" : "opacity-0"}`}
           src="/HOY.mp4"
           playsInline
-          muted
           onEnded={() => setVideoPlaying(false)}
         />
 
@@ -173,8 +172,7 @@ export function Hero({
                     className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${videoPlaying ? "opacity-60" : "opacity-0"}`}
                     src="/HOY.mp4"
                     playsInline
-                    muted
-                    onEnded={() => setVideoPlaying(false)}
+                              onEnded={() => setVideoPlaying(false)}
                   />
                   <div
                     className={`absolute inset-0 bg-cover bg-center transition-opacity duration-700 ${videoPlaying ? "opacity-0" : "opacity-100"}`}

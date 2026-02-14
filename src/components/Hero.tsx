@@ -74,11 +74,12 @@ export function Hero({
     setCurrent((c) => (c - 1 + totalSlides) % totalSlides);
   }, [totalSlides]);
 
-  // Auto-advance carousel
+  // Auto-advance carousel (pause while video is playing)
   useEffect(() => {
+    if (videoPlaying) return;
     const timer = setInterval(next, 6000);
     return () => clearInterval(timer);
-  }, [next]);
+  }, [next, videoPlaying]);
 
   const playVideo = (ref: React.RefObject<HTMLVideoElement | null>) => {
     if (ref.current) {

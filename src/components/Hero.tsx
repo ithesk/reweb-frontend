@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 
 interface HeroSlide {
   title: string;
@@ -60,6 +60,9 @@ export function Hero({
   slides,
 }: HeroProps) {
   const [current, setCurrent] = useState(0);
+  const [videoPlaying, setVideoPlaying] = useState(false);
+  const videoRefDesktop = useRef<HTMLVideoElement>(null);
+  const videoRefMobile = useRef<HTMLVideoElement>(null);
   const heroSlides = slides || defaultSlides;
   const totalSlides = heroSlides.length;
 
@@ -77,15 +80,35 @@ export function Hero({
     return () => clearInterval(timer);
   }, [next]);
 
+  const playVideo = (ref: React.RefObject<HTMLVideoElement | null>) => {
+    if (ref.current) {
+      ref.current.play();
+      setVideoPlaying(true);
+    }
+  };
+
   return (
     <>
-      {/* Desktop: Original hero layout */}
+      {/* Desktop */}
       <section className="hidden md:block relative w-full h-[600px] lg:h-[720px] bg-[var(--bg-dark)] overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-50 bg-cover bg-center"
-          style={{ backgroundImage: `url('${backgroundImage}')` }}
+        {/* Video */}
+        <video
+          ref={videoRefDesktop}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${videoPlaying ? "opacity-60" : "opacity-0"}`}
+          src="/HOY.mp4"
+          playsInline
+          muted
+          onEnded={() => setVideoPlaying(false)}
         />
+
+        {/* Poster image (visible when video not playing) */}
+        <div
+          className={`absolute inset-0 bg-cover bg-center transition-opacity duration-700 ${videoPlaying ? "opacity-0" : "opacity-50"}`}
+          style={{ backgroundImage: `url('/portadashek.jpg')` }}
+        />
+
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, #0A0A0AEE 0%, #0A0A0A44 35%, #0A0A0A22 60%, #0A0A0ABB 100%)' }} />
+
         <div className="relative flex flex-col justify-center h-full px-10 lg:px-[80px] gap-8">
           <span className="font-display text-[16px] font-semibold text-[var(--brand-primary)] tracking-[4px]">
             {welcomeLabel}
@@ -107,6 +130,15 @@ export function Hero({
             {subtitle}
           </p>
           <div className="flex flex-row gap-4">
+            {!videoPlaying && (
+              <button
+                onClick={() => playVideo(videoRefDesktop)}
+                className="flex items-center justify-center gap-2 px-10 py-4 rounded-[8px] bg-[var(--brand-primary)] font-display text-[16px] font-bold text-white hover:brightness-110 transition-all"
+              >
+                <Play className="w-5 h-5" />
+                Reproducir
+              </button>
+            )}
             <a
               href={ctaPrimaryHref}
               className="flex items-center justify-center px-10 py-4 rounded-[8px] bg-[var(--brand-primary)] font-display text-[16px] font-bold text-white hover:brightness-110 transition-all"
@@ -133,11 +165,28 @@ export function Hero({
                 i === current ? "opacity-100" : "opacity-0 pointer-events-none"
               }`}
             >
-              {/* Background */}
-              <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url('${slide.backgroundImage}')` }}
-              />
+              {i === 0 ? (
+                <>
+                  {/* First slide: poster + video */}
+                  <video
+                    ref={videoRefMobile}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${videoPlaying ? "opacity-60" : "opacity-0"}`}
+                    src="/HOY.mp4"
+                    playsInline
+                    muted
+                    onEnded={() => setVideoPlaying(false)}
+                  />
+                  <div
+                    className={`absolute inset-0 bg-cover bg-center transition-opacity duration-700 ${videoPlaying ? "opacity-0" : "opacity-100"}`}
+                    style={{ backgroundImage: `url('/portadashek.jpg')` }}
+                  />
+                </>
+              ) : (
+                <div
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: `url('${slide.backgroundImage}')` }}
+                />
+              )}
               <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, #0A0A0AEE 0%, #0A0A0A44 35%, #0A0A0A22 60%, #0A0A0ABB 100%)' }} />
 
               {/* Content */}
@@ -177,6 +226,15 @@ export function Hero({
 
                 {/* CTAs */}
                 <div className="flex flex-col gap-2.5 mt-1">
+                  {i === 0 && !videoPlaying && (
+                    <button
+                      onClick={() => playVideo(videoRefMobile)}
+                      className="flex items-center justify-center gap-2 w-full py-3.5 rounded-[8px] bg-[var(--brand-primary)] font-display text-[14px] font-bold text-white"
+                    >
+                      <Play className="w-4 h-4" />
+                      Reproducir
+                    </button>
+                  )}
                   {slide.ctaLabel && (
                     <a
                       href={slide.ctaHref || "#"}

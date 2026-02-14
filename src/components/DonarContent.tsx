@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, ChevronDown, Loader2, CheckCircle } from "lucide-react";
+import { Search, ChevronDown, Loader2, CheckCircle, Copy, Check } from "lucide-react";
 
 const PAYPAL_URL = "https://www.paypal.com/paypalme/REVOLUCIONAIGLESIA";
 const amountOptions = ["$25", "$50", "$100", "$250"];
@@ -181,8 +181,11 @@ export function DonarContent() {
               Cuentas para transferencias
             </h3>
             <div className="rounded-[16px] bg-[var(--bg-surface)] p-5">
-              <p className="font-body text-[14px] font-semibold">Banreservas: 9606691535</p>
-              <p className="font-body text-[14px] font-semibold">RNC: 430382507</p>
+              <div className="flex items-center justify-between">
+                <p className="font-body text-[14px] font-semibold">Banreservas: 9606691535</p>
+                <CopyButton text="9606691535" />
+              </div>
+              <p className="font-body text-[14px] font-semibold mt-2">RNC: 430382507</p>
               <p className="font-body text-[12px] text-[var(--text-secondary)] mt-1">
                 A nombre de Iglesia Revoluciona
               </p>
@@ -342,6 +345,35 @@ function ImpactCard({ title, date }: { title: string; date: string }) {
         </h4>
       </div>
     </article>
+  );
+}
+
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      className="flex items-center gap-1.5 rounded-[8px] bg-[var(--brand-primary)] px-3 py-1.5 font-display text-[12px] font-bold text-white transition-all hover:brightness-110 active:scale-95"
+    >
+      {copied ? (
+        <>
+          <Check className="w-3.5 h-3.5" />
+          Copiado
+        </>
+      ) : (
+        <>
+          <Copy className="w-3.5 h-3.5" />
+          Copiar
+        </>
+      )}
+    </button>
   );
 }
 

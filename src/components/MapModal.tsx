@@ -77,8 +77,9 @@ export function MapModal({ isOpen, onClose }: MapModalProps) {
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 px-6 py-5 border-t border-white/10">
           <div className="flex items-center gap-3">
             <Clock className="w-[18px] h-[18px] text-[var(--text-muted)] shrink-0" />
-            <div className="font-body text-[13px] text-[var(--text-muted)]">
-              <span className="text-[var(--text-inverted)] font-medium">Domingos</span> 9:00 AM y 11:00 AM
+            <div className="flex flex-col font-body text-[13px] text-[var(--text-muted)]">
+              <span><span className="text-[var(--text-inverted)] font-medium">1er servicio</span> 10:00 - 11:45 AM</span>
+              <span><span className="text-[var(--text-inverted)] font-medium">2do servicio</span> 12:10 - 1:15 PM</span>
             </div>
           </div>
           <div className="flex items-center gap-3">

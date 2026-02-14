@@ -1,16 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { Search, ChevronDown } from "lucide-react";
+import { Search, ChevronDown, Loader2, CheckCircle } from "lucide-react";
 
-const amounts = ["$25", "$50", "$100", "$250"];
+const PAYPAL_URL = "https://www.paypal.com/paypalme/REVOLUCIONAIGLESIA";
+const amountOptions = ["$25", "$50", "$100", "$250"];
 
 export function DonarContent() {
+  const [selectedAmount, setSelectedAmount] = useState("");
+
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
       {/* ── Desktop ── */}
       <section className="hidden lg:block">
-        {/* Hero */}
         <header className="bg-[var(--bg-dark)] px-20 py-16">
           <p className="mb-4 font-display text-[11px] font-bold tracking-[3px] text-[var(--brand-primary)]">
             DONAR
@@ -36,7 +38,7 @@ export function DonarContent() {
               Ver impacto
             </a>
             <a
-              href="https://www.paypal.com"
+              href={PAYPAL_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-[8px] bg-[var(--brand-primary)] px-8 py-[14px] font-display text-[14px] font-bold text-white hover:brightness-110 transition-all"
@@ -46,10 +48,15 @@ export function DonarContent() {
           </div>
 
           <div className="mt-4 flex gap-2">
-            {amounts.map((a) => (
+            {amountOptions.map((a) => (
               <button
                 key={a}
-                className="rounded-[8px] border-[1.5px] border-[var(--brand-primary)] px-6 py-[14px] font-display text-[14px] font-bold text-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-colors"
+                onClick={() => setSelectedAmount(a)}
+                className={`rounded-[8px] border-[1.5px] px-6 py-[14px] font-display text-[14px] font-bold transition-colors ${
+                  selectedAmount === a
+                    ? "border-[var(--brand-primary)] bg-[var(--brand-primary)] text-white"
+                    : "border-[var(--brand-primary)] text-[var(--brand-primary)] hover:bg-[var(--accent-glow)]"
+                }`}
               >
                 {a}
               </button>
@@ -57,7 +64,6 @@ export function DonarContent() {
           </div>
         </header>
 
-        {/* Form + Impact */}
         <div className="flex gap-7 px-[120px] py-14">
           <div id="donar-form" className="flex-1 rounded-[16px] bg-[var(--bg-surface)] p-7">
             <h2 className="font-display text-[34px] font-bold text-[var(--text-primary)]">
@@ -66,7 +72,7 @@ export function DonarContent() {
             <p className="mb-5 font-body text-[14px] text-[var(--text-secondary)]">
               Elige un monto, agrega tus datos y finaliza en segundos.
             </p>
-            <DonationForm />
+            <DonationForm initialAmount={selectedAmount} />
           </div>
 
           <aside id="impacto" className="w-[360px] space-y-4">
@@ -78,7 +84,6 @@ export function DonarContent() {
           </aside>
         </div>
 
-        {/* FAQ */}
         <section className="px-[120px] pb-14">
           <h3 className="mb-4 font-display text-[24px] font-bold text-[var(--text-primary)]">
             Preguntas frecuentes
@@ -88,7 +93,6 @@ export function DonarContent() {
           <FaqItem q="¿Puedo elegir el destino de mi donacion?" a="Si, puedes indicar el area o ministerio al que deseas destinar tu ofrenda." />
         </section>
 
-        {/* Bank info */}
         <section className="px-[120px] pb-14">
           <h3 className="mb-4 font-display text-[24px] font-bold text-[var(--text-primary)]">
             Cuentas para transferencias
@@ -111,7 +115,6 @@ export function DonarContent() {
 
       {/* ── Mobile ── */}
       <section className="lg:hidden">
-        {/* Hero */}
         <header className="bg-[var(--bg-dark)] px-5 py-7">
           <p className="mb-3 font-display text-[11px] font-bold tracking-[3px] text-[var(--brand-primary)]">
             DONAR
@@ -131,7 +134,7 @@ export function DonarContent() {
               Donar ahora
             </a>
             <a
-              href="https://www.paypal.com"
+              href={PAYPAL_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-[8px] bg-[var(--brand-primary)] px-5 py-2.5 font-display text-[13px] font-bold text-white"
@@ -141,10 +144,15 @@ export function DonarContent() {
           </div>
 
           <div className="mt-3 flex flex-wrap gap-2">
-            {amounts.map((a) => (
+            {amountOptions.map((a) => (
               <button
                 key={a}
-                className="rounded-[8px] border-[1.5px] border-[var(--brand-primary)] px-4 py-2 font-display text-[13px] font-bold text-[var(--brand-primary)]"
+                onClick={() => setSelectedAmount(a)}
+                className={`rounded-[8px] border-[1.5px] px-4 py-2 font-display text-[13px] font-bold transition-colors ${
+                  selectedAmount === a
+                    ? "border-[var(--brand-primary)] bg-[var(--brand-primary)] text-white"
+                    : "border-[var(--brand-primary)] text-[var(--brand-primary)]"
+                }`}
               >
                 {a}
               </button>
@@ -153,15 +161,13 @@ export function DonarContent() {
         </header>
 
         <div className="space-y-6 p-5">
-          {/* Form */}
           <div id="donar-form-mobile" className="rounded-[16px] bg-[var(--bg-surface)] p-5">
             <h2 className="mb-3 font-display text-[28px] font-bold text-[var(--text-primary)]">
               Completa tu donacion
             </h2>
-            <DonationForm />
+            <DonationForm initialAmount={selectedAmount} />
           </div>
 
-          {/* FAQ */}
           <section>
             <h3 className="mb-3 font-display text-[20px] font-bold text-[var(--text-primary)]">
               Preguntas frecuentes
@@ -170,7 +176,6 @@ export function DonarContent() {
             <FaqItem q="¿Puedo elegir destino?" a="Si, puedes indicar el area o ministerio." />
           </section>
 
-          {/* Bank info */}
           <section>
             <h3 className="mb-3 font-display text-[20px] font-bold text-[var(--text-primary)]">
               Cuentas para transferencias
@@ -184,7 +189,6 @@ export function DonarContent() {
             </div>
           </section>
 
-          {/* Impact */}
           <section>
             <h3 className="mb-3 font-display text-[20px] font-bold text-[var(--text-primary)]">
               Historias que apoyas
@@ -199,31 +203,129 @@ export function DonarContent() {
   );
 }
 
-function DonationForm() {
+function DonationForm({ initialAmount }: { initialAmount: string }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [amount, setAmount] = useState("");
+  const [destination, setDestination] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+
+  const displayAmount = amount || initialAmount;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (!name.trim() || !email.trim()) {
+      setError("Nombre y correo son requeridos.");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const res = await fetch("/api/donations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          phone: phone.trim(),
+          amount: displayAmount || undefined,
+          destination: destination.trim() || undefined,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Error al enviar");
+      }
+
+      setSuccess(true);
+      setName("");
+      setEmail("");
+      setPhone("");
+      setAmount("");
+      setDestination("");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Error al enviar la donacion");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (success) {
+    return (
+      <div className="flex flex-col items-center gap-4 py-8">
+        <CheckCircle className="w-12 h-12 text-[var(--brand-primary)]" />
+        <h3 className="font-display text-[20px] font-bold text-[var(--text-primary)]">
+          Gracias por tu generosidad
+        </h3>
+        <p className="font-body text-[14px] text-[var(--text-secondary)] text-center">
+          Tu donacion ha sido registrada. Nos pondremos en contacto contigo.
+        </p>
+        <button
+          onClick={() => setSuccess(false)}
+          className="rounded-[8px] border-[1.5px] border-[var(--brand-primary)] px-6 py-2.5 font-display text-[14px] font-bold text-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-colors"
+        >
+          Hacer otra donacion
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-3">
+    <form onSubmit={handleSubmit} className="space-y-3">
+      {error && (
+        <div className="p-3 rounded-[8px] bg-red-500/10 border border-red-500/20 font-body text-[13px] text-red-600">
+          {error}
+        </div>
+      )}
       <input
         placeholder="Nombre completo"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
         className="h-12 w-full rounded-[8px] border border-[var(--border-subtle)] bg-white px-4 font-body text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:border-[var(--brand-primary)] transition-colors"
       />
       <input
         placeholder="Correo electronico"
         type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
         className="h-12 w-full rounded-[8px] border border-[var(--border-subtle)] bg-white px-4 font-body text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:border-[var(--brand-primary)] transition-colors"
       />
       <input
         placeholder="Telefono"
         type="tel"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
         className="h-12 w-full rounded-[8px] border border-[var(--border-subtle)] bg-white px-4 font-body text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:border-[var(--brand-primary)] transition-colors"
       />
-      <div className="flex h-12 items-center gap-2 rounded-[8px] border border-[var(--border-subtle)] bg-white px-4 text-[var(--text-muted)]">
-        <Search size={18} />
-        <span className="font-body text-[14px]">Destino de la donacion</span>
-      </div>
-      <button className="rounded-[8px] bg-[var(--brand-primary)] px-6 py-3 font-display text-[14px] font-bold text-white hover:brightness-110 transition-all">
+      <input
+        placeholder="Monto (ej: $50)"
+        value={displayAmount}
+        onChange={(e) => setAmount(e.target.value)}
+        className="h-12 w-full rounded-[8px] border border-[var(--border-subtle)] bg-white px-4 font-body text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:border-[var(--brand-primary)] transition-colors"
+      />
+      <input
+        placeholder="Destino de la donacion (opcional)"
+        value={destination}
+        onChange={(e) => setDestination(e.target.value)}
+        className="h-12 w-full rounded-[8px] border border-[var(--border-subtle)] bg-white px-4 font-body text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:border-[var(--brand-primary)] transition-colors"
+      />
+      <button
+        type="submit"
+        disabled={isLoading}
+        className="rounded-[8px] bg-[var(--brand-primary)] px-6 py-3 font-display text-[14px] font-bold text-white hover:brightness-110 transition-all disabled:opacity-50 flex items-center gap-2"
+      >
+        {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
         Confirmar donacion
       </button>
-    </div>
+    </form>
   );
 }
 

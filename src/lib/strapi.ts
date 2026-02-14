@@ -185,7 +185,8 @@ export async function getNavigation(): Promise<NavLink[]> {
     const response = await fetchAPI<StrapiSingleTypeResponse<{ links: NavLink[] }>>(
       '/navigation',
       {
-        revalidate: 3600, // Cache for 1 hour
+        params: { 'populate': 'links' },
+        revalidate: 60,
       }
     );
 
@@ -204,7 +205,8 @@ export async function getFooter(): Promise<FooterColumn[]> {
     const response = await fetchAPI<StrapiSingleTypeResponse<{ columns: FooterColumn[] }>>(
       '/footer',
       {
-        revalidate: 3600, // Cache for 1 hour
+        params: { 'populate[columns][populate]': 'links' },
+        revalidate: 60,
       }
     );
 
@@ -223,7 +225,7 @@ export async function getQuote(): Promise<QuoteSection | null> {
     const response = await fetchAPI<StrapiSingleTypeResponse<QuoteSection>>(
       '/quote',
       {
-        revalidate: 3600, // Cache for 1 hour
+        revalidate: 60,
       }
     );
 

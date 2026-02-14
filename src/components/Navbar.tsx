@@ -8,7 +8,7 @@ import { UserMenu } from "./UserMenu";
 import { MapModal } from "./MapModal";
 
 const fallbackLinks = [
-  { label: "Donar", href: "https://regiven.vercel.app/" },
+  { label: "Donar", href: "/donar" },
   { label: "Servicios", href: "#servicios" },
   { label: "Conexion", href: "#conexion" },
   { label: "Nosotros", href: "/nosotros" },

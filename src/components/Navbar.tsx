@@ -26,7 +26,7 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
 
   return (
     <>
-      <nav className="relative flex items-center justify-between w-full h-[70px] md:h-[80px] px-6 md:px-10 lg:px-[80px] bg-[var(--bg-dark)]">
+      <nav className="sticky top-0 z-50 flex items-center justify-between w-full h-[70px] md:h-[80px] px-6 md:px-10 lg:px-[80px] bg-[var(--bg-dark)]">
         {/* Desktop: Logo */}
         <a href="/" className="hidden md:block">
           <Image

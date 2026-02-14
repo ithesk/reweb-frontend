@@ -40,9 +40,9 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
           <Image
             src="/Artboard 1 copy.png"
             alt="Iglesia Revoluciona"
-            width={180}
-            height={40}
-            className="object-contain h-[60px] w-auto invert"
+            width={280}
+            height={70}
+            className="object-contain h-[70px] w-auto invert"
             priority
           />
         </a>

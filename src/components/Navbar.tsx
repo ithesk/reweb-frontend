@@ -34,7 +34,7 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
             alt="Iglesia Revoluciona"
             width={180}
             height={40}
-            className="object-contain h-[36px] w-auto invert"
+            className="object-contain h-[48px] w-auto invert"
             priority
           />
         </a>
@@ -46,7 +46,7 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
             alt="Iglesia Revoluciona"
             width={32}
             height={32}
-            className="object-contain w-[28px] h-[28px] invert"
+            className="object-contain w-[36px] h-[36px] invert"
             priority
           />
         </a>
@@ -64,7 +64,7 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
           ))}
           <button
             onClick={() => setMapOpen(true)}
-            className="flex items-center justify-center px-6 py-2.5 rounded-[6px] bg-[var(--brand-primary)] font-display text-[13px] font-bold text-white hover:brightness-110 transition-all cursor-pointer"
+            className="flex items-center justify-center px-7 py-3 rounded-[6px] bg-[var(--brand-primary)] font-display text-[14px] font-bold text-white hover:brightness-110 transition-all cursor-pointer"
           >
             Visitanos
           </button>
@@ -76,7 +76,7 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
         <div className="flex md:hidden items-center gap-3">
           <button
             onClick={() => setMapOpen(true)}
-            className="flex items-center justify-center px-4 py-2 rounded-[6px] bg-[var(--brand-primary)] font-display text-[11px] font-bold text-white cursor-pointer"
+            className="flex items-center justify-center px-5 py-2.5 rounded-[6px] bg-[var(--brand-primary)] font-display text-[12px] font-bold text-white cursor-pointer"
           >
             Visitanos
           </button>

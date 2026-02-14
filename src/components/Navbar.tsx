@@ -60,7 +60,7 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
           </button>
           <a href="/" className="flex items-center h-full">
             <Image
-              src="/logo1.png"
+              src="/logos/logo1n.png"
               alt="Iglesia Revoluciona"
               width={50}
               height={50}

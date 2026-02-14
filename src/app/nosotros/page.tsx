@@ -88,7 +88,7 @@ export default async function NosotrosPage() {
               </div>
             </div>
           </div>
-          <div className="w-full lg:flex-1 h-[300px] md:h-[400px] lg:h-[500px] rounded-[20px] overflow-hidden shadow-[0_8px_40px_#D4A05320]">
+          <div className="w-full lg:flex-1 h-[300px] md:h-[400px] lg:h-[500px] rounded-[16px] overflow-hidden shadow-[0_8px_40px_#D4A05320]">
             <div
               className="w-full h-full bg-cover bg-center"
               style={{ backgroundImage: `url('${image}')` }}

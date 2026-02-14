@@ -57,6 +57,7 @@ interface ConnectSectionProps {
 }
 
 const CARD_W = 300;
+const CARD_H = 400;
 const GAP = 16;
 
 export function ConnectSection({
@@ -142,43 +143,52 @@ export function ConnectSection({
                 setActive(i);
               }
             }}
-            className="flex-shrink-0 rounded-[16px] overflow-hidden bg-[var(--bg-primary)] no-underline flex flex-col snap-center"
+            className="flex-shrink-0 rounded-[16px] overflow-hidden no-underline relative snap-center"
             style={{
               width: `${CARD_W}px`,
-              boxShadow:
-                i === active
-                  ? "0 8px 32px rgba(0,0,0,0.08)"
-                  : "0 4px 20px rgba(0,0,0,0.04)",
+              height: `${CARD_H}px`,
               opacity: i === active ? 1 : 0.4,
               transform: i === active ? "scale(1)" : "scale(0.97)",
               transition:
                 "opacity 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease",
+              boxShadow:
+                i === active
+                  ? "0 8px 32px rgba(0,0,0,0.15)"
+                  : "0 4px 20px rgba(0,0,0,0.06)",
             }}
           >
-            {/* Image */}
-            <div className="w-full h-[180px] overflow-hidden">
-              <div
-                className="w-full h-full bg-cover bg-center"
-                style={{ backgroundImage: `url('${card.image}')` }}
-              />
-            </div>
+            {/* Full background image */}
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url('${card.image}')` }}
+            />
 
-            {/* Content */}
-            <div className="flex flex-col gap-1.5 p-4 px-5">
-              {card.tag && (
-                <span className="font-display text-[10px] font-bold tracking-[3px] text-[var(--brand-primary)]">
+            {/* Gradient overlay: transparent top → dark bottom */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.7) 100%)",
+              }}
+            />
+
+            {/* Pill tag at top */}
+            {card.tag && (
+              <div className="absolute top-4 left-4 z-10">
+                <span className="inline-block px-3 py-1 rounded-full bg-[var(--brand-primary)] font-display text-[10px] font-bold tracking-[2px] text-white">
                   {card.tag}
                 </span>
-              )}
-              <h3 className="font-display text-[17px] font-extrabold text-[var(--text-primary)]">
+              </div>
+            )}
+
+            {/* Text content at bottom */}
+            <div className="absolute bottom-0 left-0 right-0 p-5 z-10 flex flex-col gap-1.5">
+              <h3 className="font-display text-[18px] font-extrabold text-white leading-tight">
                 {card.title}
               </h3>
-              <p className="font-body text-[13px] leading-[1.5] text-[var(--text-secondary)]">
+              <p className="font-body text-[13px] leading-[1.5] text-white/80">
                 {card.subtitle}
               </p>
-              <span className="font-body text-[13px] font-semibold text-[var(--brand-primary)] mt-1">
-                Conoce mas →
-              </span>
             </div>
           </a>
         ))}

@@ -83,7 +83,7 @@ export function Events({
         {items.map((event) => (
           <div
             key={event.title}
-            className="flex flex-col rounded-[16px] bg-[var(--bg-surface)] overflow-hidden shadow-[0_4px_20px_#00000008]"
+            className="flex flex-col rounded-[16px] bg-[var(--bg-primary)] overflow-hidden shadow-[0_4px_20px_#00000008]"
           >
             <div
               className="w-full h-[200px] md:h-[220px] bg-cover bg-center"

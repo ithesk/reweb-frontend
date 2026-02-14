@@ -88,7 +88,6 @@ export default async function Home() {
         title={hp?.cta?.title}
         subtitle={hp?.cta?.subtitle}
         buttonPrimaryLabel={hp?.cta?.buttonPrimary?.label}
-        buttonPrimaryHref={hp?.cta?.buttonPrimary?.href}
         buttonSecondaryLabel={hp?.cta?.buttonSecondary?.label}
         buttonSecondaryHref={hp?.cta?.buttonSecondary?.href}
       />

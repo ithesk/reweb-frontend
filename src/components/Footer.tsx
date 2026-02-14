@@ -5,19 +5,17 @@ const fallbackColumns = [
   {
     title: "NOSOTROS",
     links: [
-      { label: "Nuestra Historia", href: "#" },
-      { label: "Vision y Mision", href: "#" },
+      { label: "Nuestra Mision", href: "#" },
+      { label: "Vision y Valores", href: "#" },
       { label: "Pastores", href: "#" },
-      { label: "Ubicaciones", href: "#" },
     ],
   },
   {
     title: "SERVICIOS",
     links: [
-      { label: "Servicios Dominicales", href: "#" },
+      { label: "Dominicales", href: "#" },
       { label: "Grupos de Vida", href: "#" },
       { label: "Jovenes", href: "#" },
-      { label: "Donar", href: "#" },
     ],
   },
   {
@@ -26,7 +24,6 @@ const fallbackColumns = [
       { label: "Instagram", href: "#" },
       { label: "YouTube", href: "#" },
       { label: "Facebook", href: "#" },
-      { label: "Contacto", href: "#" },
     ],
   },
 ];
@@ -43,8 +40,8 @@ interface FooterProps {
 
 export function Footer({
   columns,
-  tagline = "Transformando vidas, construyendo comunidad, impactando ciudades.",
-  copyright = "© 2026 Iglesia Revoluciona. Todos los derechos reservados.",
+  tagline = "Transforma tu vida, construyendo comunidad, levantando propositos.",
+  copyright = "\u00A9 2026 Iglesia Revoluciona.",
   privacyLabel = "Privacidad",
   privacyHref = "#",
   termsLabel = "Terminos",
@@ -59,19 +56,19 @@ export function Footer({
         {/* Brand */}
         <div className="flex flex-col gap-5 w-full md:w-[320px]">
           <Image
-            src="/logo2.png"
+            src="/logo1.png"
             alt="Iglesia Revoluciona"
-            width={200}
-            height={56}
-            className="object-contain object-left w-[160px] md:w-[200px]"
+            width={48}
+            height={48}
+            className="object-contain w-[40px] h-[40px] md:w-[48px] md:h-[48px] invert"
           />
-          <p className="font-body text-[14px] text-[var(--text-muted)] leading-[1.5] max-w-[300px]">
+          <p className="font-body text-[14px] text-[var(--text-muted)] leading-[1.6] max-w-[340px]">
             {tagline}
           </p>
         </div>
 
         {/* Columns */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 md:gap-[80px]">
+        <div className="grid grid-cols-3 gap-8 md:gap-[80px]">
           {cols.map((col) => (
             <div key={col.title} className="flex flex-col gap-4">
               <h4 className="font-display text-[12px] font-bold text-[var(--brand-primary)] tracking-[2px]">
@@ -81,7 +78,7 @@ export function Footer({
                 <a
                   key={link.label}
                   href={link.href}
-                  className="font-body text-[14px] text-[var(--text-muted)] hover:text-white transition-colors"
+                  className="font-body text-[14px] text-[var(--text-muted)] hover:text-[var(--text-inverted)] transition-colors"
                 >
                   {link.label}
                 </a>
@@ -95,20 +92,20 @@ export function Footer({
       <div className="w-full h-px bg-[var(--border-strong)]" />
 
       {/* Bottom */}
-      <div className="flex flex-col md:flex-row items-center justify-between w-full gap-4">
+      <div className="flex flex-col items-center gap-3 w-full">
         <span className="font-body text-[12px] text-[var(--text-muted)]">
           {copyright}
         </span>
         <div className="flex gap-6">
           <a
             href={privacyHref}
-            className="font-body text-[12px] text-[var(--text-muted)] hover:text-white transition-colors"
+            className="font-body text-[12px] text-[var(--text-muted)] hover:text-[var(--text-inverted)] transition-colors"
           >
             {privacyLabel}
           </a>
           <a
             href={termsHref}
-            className="font-body text-[12px] text-[var(--text-muted)] hover:text-white transition-colors"
+            className="font-body text-[12px] text-[var(--text-muted)] hover:text-[var(--text-inverted)] transition-colors"
           >
             {termsLabel}
           </a>

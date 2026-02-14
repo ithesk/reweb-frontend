@@ -166,3 +166,31 @@ export interface QuoteData {
   text: string;
   reference: string;
 }
+
+// Auth Types
+export interface StrapiUser {
+  id: number;
+  username: string;
+  email: string;
+  provider: string;
+  confirmed: boolean;
+  blocked: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Search Types
+export interface SearchResult {
+  id: number;
+  title: string;
+  description: string;
+  slug: string;
+  type: 'service' | 'event' | 'page';
+  displayDate?: string;
+}
+
+export interface SearchResults {
+  services: SearchResult[];
+  events: SearchResult[];
+  pages: SearchResult[];
+}

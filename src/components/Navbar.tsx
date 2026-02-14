@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Search, User, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import type { NavLink } from "@/lib/types";
+import { SearchOverlay } from "./SearchOverlay";
+import { UserMenu } from "./UserMenu";
 
 const fallbackLinks = [
   { label: "Donar", href: "#donar" },
@@ -49,15 +51,8 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
 
       {/* Search + Profile — desktop */}
       <div className="hidden md:flex items-center gap-4 h-full">
-        <div className="flex items-center gap-[10px] w-[220px] h-[40px] rounded-[20px] bg-white/[0.08] px-4">
-          <Search className="w-[18px] h-[18px] text-[var(--text-muted)]" />
-          <span className="font-body text-[13px] text-[var(--text-muted)]">
-            {searchPlaceholder}
-          </span>
-        </div>
-        <div className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-white/[0.08]">
-          <User className="w-[18px] h-[18px] text-[var(--text-inverted)]" />
-        </div>
+        <SearchOverlay placeholder={searchPlaceholder} />
+        <UserMenu />
       </div>
 
       {/* Hamburger — mobile */}
@@ -87,15 +82,8 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
             </a>
           ))}
           <div className="flex items-center gap-4 px-6 py-4 border-t border-white/10">
-            <div className="flex items-center gap-[10px] flex-1 h-[40px] rounded-[20px] bg-white/[0.08] px-4">
-              <Search className="w-[18px] h-[18px] text-[var(--text-muted)]" />
-              <span className="font-body text-[13px] text-[var(--text-muted)]">
-                {searchPlaceholder}
-              </span>
-            </div>
-            <div className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-white/[0.08]">
-              <User className="w-[18px] h-[18px] text-[var(--text-inverted)]" />
-            </div>
+            <SearchOverlay placeholder={searchPlaceholder} className="flex-1" />
+            <UserMenu />
           </div>
         </div>
       )}

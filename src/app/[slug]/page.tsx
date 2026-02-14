@@ -23,61 +23,83 @@ async function fetchStrapi(endpoint: string) {
 }
 
 async function getPageBySlug(slug: string) {
-  const params = new URLSearchParams({
+  // Try pages first
+  const pageParams = new URLSearchParams({
     'filters[slug][$eq]': slug,
     'populate[sections][populate]': '*',
     'populate': 'heroImage',
   });
-  const res = await fetchStrapi(`/pages?${params.toString()}`);
-  if (!res?.data?.length) return null;
-  return res.data[0];
+  const pageRes = await fetchStrapi(`/pages?${pageParams.toString()}`);
+  if (pageRes?.data?.length) return { type: 'page' as const, data: pageRes.data[0] };
+
+  // Try services
+  const svcParams = new URLSearchParams({
+    'filters[slug][$eq]': slug,
+    'populate': 'image',
+  });
+  const svcRes = await fetchStrapi(`/services?${svcParams.toString()}`);
+  if (svcRes?.data?.length) return { type: 'service' as const, data: svcRes.data[0] };
+
+  // Try events
+  const evtParams = new URLSearchParams({
+    'filters[slug][$eq]': slug,
+    'populate': 'image',
+  });
+  const evtRes = await fetchStrapi(`/events?${evtParams.toString()}`);
+  if (evtRes?.data?.length) return { type: 'event' as const, data: evtRes.data[0] };
+
+  return null;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const page = await getPageBySlug(slug);
-  if (!page) return { title: 'Pagina no encontrada' };
+  const result = await getPageBySlug(slug);
+  if (!result) return { title: 'Pagina no encontrada' };
+  const attrs = result.data.attributes;
   return {
-    title: `${page.attributes.title} | Iglesia Revoluciona`,
-    description: page.attributes.description || '',
+    title: `${attrs.title} | Iglesia Revoluciona`,
+    description: attrs.description || '',
   };
 }
 
 export default async function DynamicPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [page, navLinks, footerColumns] = await Promise.all([
+  const [result, navLinks, footerColumns] = await Promise.all([
     getPageBySlug(slug),
     getNavigation(),
     getFooter(),
   ]);
 
-  if (!page) notFound();
+  if (!result) notFound();
 
-  const { title, heroTitle, heroSubtitle, content, sections } = page.attributes;
+  const attrs = result.data.attributes;
 
   return (
     <main className="flex flex-col w-full">
       <Navbar links={navLinks} />
 
       {/* Hero */}
-      {(heroTitle || title) && (
-        <section className="relative w-full py-20 md:py-32 bg-[var(--bg-dark)] overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/90" />
-          <div className="relative flex flex-col items-center justify-center px-6 md:px-10 lg:px-[80px] gap-4">
-            <h1 className="font-display text-[36px] md:text-[48px] lg:text-[64px] font-extrabold text-white tracking-[-1.5px] text-center">
-              {heroTitle || title}
-            </h1>
-            {heroSubtitle && (
-              <p className="font-body text-[16px] md:text-[20px] text-white/80 text-center max-w-[700px]">
-                {heroSubtitle}
-              </p>
-            )}
-          </div>
-        </section>
-      )}
+      <section className="relative w-full py-20 md:py-32 bg-[var(--bg-dark)] overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/90" />
+        <div className="relative flex flex-col items-center justify-center px-6 md:px-10 lg:px-[80px] gap-4">
+          <h1 className="font-display text-[36px] md:text-[48px] lg:text-[64px] font-extrabold text-white tracking-[-1.5px] text-center">
+            {attrs.heroTitle || attrs.title}
+          </h1>
+          {(attrs.heroSubtitle || attrs.description) && (
+            <p className="font-body text-[16px] md:text-[20px] text-white/80 text-center max-w-[700px]">
+              {attrs.heroSubtitle || attrs.description}
+            </p>
+          )}
+          {result.type === 'event' && attrs.displayDate && (
+            <span className="font-body text-[14px] text-white/60 tracking-[1px]">
+              {attrs.displayDate}
+            </span>
+          )}
+        </div>
+      </section>
 
-      {/* Rich text content */}
-      {content && (
+      {/* Rich text content (pages only) */}
+      {result.type === 'page' && attrs.content && (
         <section className="w-full px-6 md:px-10 lg:px-[200px] py-16 md:py-[80px] bg-[var(--bg-primary)]">
           <div
             className="prose prose-lg max-w-none font-body text-[var(--text-primary)]
@@ -86,15 +108,24 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
               prose-a:text-[var(--text-primary)] prose-a:underline
               prose-strong:text-[var(--text-primary)]
               prose-ul:text-[var(--text-secondary)] prose-ol:text-[var(--text-secondary)]"
-            dangerouslySetInnerHTML={{ __html: content }}
+            dangerouslySetInnerHTML={{ __html: attrs.content }}
           />
         </section>
       )}
 
-      {/* Dynamic sections */}
-      {sections && sections.length > 0 && (
+      {/* Description for services/events */}
+      {result.type !== 'page' && attrs.description && (
+        <section className="w-full px-6 md:px-10 lg:px-[200px] py-16 md:py-[80px] bg-[var(--bg-primary)]">
+          <p className="font-body text-[16px] md:text-[18px] text-[var(--text-secondary)] leading-[1.7] max-w-[800px] mx-auto text-center">
+            {attrs.description}
+          </p>
+        </section>
+      )}
+
+      {/* Dynamic sections (pages only) */}
+      {result.type === 'page' && attrs.sections && attrs.sections.length > 0 && (
         <>
-          {sections.map((section: any, index: number) => {
+          {attrs.sections.map((section: any, index: number) => {
             switch (section.__component) {
               case 'shared.quote':
                 return (

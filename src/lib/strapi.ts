@@ -89,8 +89,8 @@ export function getStrapiImageUrl(image: StrapiImage | null | undefined): string
     return image.url;
   }
 
-  // Otherwise, prepend STRAPI_URL
-  return `${STRAPI_URL}${image.url}`;
+  // Proxy through Next.js to avoid mixed content (HTTPS frontend → HTTP Strapi)
+  return `/api/media?path=${encodeURIComponent(image.url)}`;
 }
 
 /**

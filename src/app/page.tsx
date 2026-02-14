@@ -76,7 +76,7 @@ export default async function Home() {
           title: c.title,
           subtitle: c.subtitle || '',
           image: c.image?.data?.attributes?.url
-            ? `${STRAPI_URL}${c.image.data.attributes.url}`
+            ? `/api/media?path=${encodeURIComponent(c.image.data.attributes.url)}`
             : '',
           href: c.href,
         }))}

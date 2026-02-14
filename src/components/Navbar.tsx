@@ -6,6 +6,7 @@ import type { NavLink } from "@/lib/types";
 import { SearchOverlay } from "./SearchOverlay";
 import { UserMenu } from "./UserMenu";
 import { MapModal } from "./MapModal";
+import { Heart, Layers, Users, Info, MapPin, User } from "lucide-react";
 
 const fallbackLinks = [
   { label: "Donar", href: "/donar" },
@@ -13,6 +14,13 @@ const fallbackLinks = [
   { label: "Conexion", href: "#conexion" },
   { label: "Nosotros", href: "/nosotros" },
 ];
+
+const menuIcons: Record<string, React.ReactNode> = {
+  Donar: <Heart className="w-5 h-5" />,
+  Servicios: <Layers className="w-5 h-5" />,
+  Conexion: <Users className="w-5 h-5" />,
+  Nosotros: <Info className="w-5 h-5" />,
+};
 
 interface NavbarProps {
   links?: NavLink[];
@@ -39,17 +47,28 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
           />
         </a>
 
-        {/* Mobile: Logo */}
-        <a href="/" className="flex md:hidden items-center h-full">
-          <Image
-            src="/logo1.png"
-            alt="Iglesia Revoluciona"
-            width={32}
-            height={32}
-            className="object-contain w-[56px] h-[56px] invert"
-            priority
-          />
-        </a>
+        {/* Mobile: Hamburger + Logo */}
+        <div className="flex md:hidden items-center gap-3">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="flex flex-col items-center justify-center gap-[5px] w-[36px] h-[36px]"
+            aria-label="Menu"
+          >
+            <span className={`block w-[20px] h-[2px] bg-[var(--text-inverted)] transition-all ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
+            <span className={`block w-[20px] h-[2px] bg-[var(--text-inverted)] transition-all ${menuOpen ? "opacity-0" : ""}`} />
+            <span className={`block w-[20px] h-[2px] transition-all ${menuOpen ? "-rotate-45 -translate-y-[7px] bg-[var(--text-inverted)]" : "bg-[var(--brand-primary)]"}`} />
+          </button>
+          <a href="/" className="flex items-center h-full">
+            <Image
+              src="/logo1.png"
+              alt="Iglesia Revoluciona"
+              width={32}
+              height={32}
+              className="object-contain w-[56px] h-[56px] invert"
+              priority
+            />
+          </a>
+        </div>
 
         {/* Desktop: Nav Links + Visitanos */}
         <div className="hidden md:flex items-center gap-8 h-full">
@@ -72,7 +91,7 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
           <UserMenu />
         </div>
 
-        {/* Mobile: Visitanos button + hamburger */}
+        {/* Mobile: Visitanos + Search */}
         <div className="flex md:hidden items-center gap-3">
           <button
             onClick={() => setMapOpen(true)}
@@ -81,15 +100,6 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
             Visitanos
           </button>
           <SearchOverlay placeholder={searchPlaceholder} className="w-[36px]" compact />
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="flex flex-col items-center justify-center gap-[5px] w-[36px] h-[36px]"
-            aria-label="Menu"
-          >
-            <span className={`block w-[20px] h-[2px] bg-[var(--text-inverted)] transition-all ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
-            <span className={`block w-[20px] h-[2px] bg-[var(--text-inverted)] transition-all ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`block w-[20px] h-[2px] transition-all ${menuOpen ? "-rotate-45 -translate-y-[7px] bg-[var(--text-inverted)]" : "bg-[var(--brand-primary)]"}`} />
-          </button>
         </div>
 
         {/* Mobile Menu */}
@@ -100,12 +110,28 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
                 key={link.label}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="font-body text-[15px] font-medium text-[var(--text-inverted)] px-6 py-4 hover:bg-white/[0.05] transition-colors"
+                className="flex items-center gap-3 font-body text-[15px] font-medium text-[var(--text-inverted)] px-6 py-4 hover:bg-white/[0.05] transition-colors"
               >
+                <span className="text-[var(--brand-primary)]">
+                  {menuIcons[link.label] || <Layers className="w-5 h-5" />}
+                </span>
                 {link.label}
               </a>
             ))}
-            <div className="flex items-center gap-4 px-6 py-4 border-t border-white/10">
+            <a
+              href="#"
+              onClick={(e) => { e.preventDefault(); setMenuOpen(false); setMapOpen(true); }}
+              className="flex items-center gap-3 font-body text-[15px] font-medium text-[var(--text-inverted)] px-6 py-4 hover:bg-white/[0.05] transition-colors"
+            >
+              <span className="text-[var(--brand-primary)]">
+                <MapPin className="w-5 h-5" />
+              </span>
+              Visitanos
+            </a>
+            <div className="flex items-center gap-3 px-6 py-4 border-t border-white/10">
+              <span className="text-[var(--brand-primary)]">
+                <User className="w-5 h-5" />
+              </span>
               <UserMenu />
             </div>
           </div>

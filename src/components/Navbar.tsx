@@ -8,7 +8,7 @@ import { SearchOverlay } from "./SearchOverlay";
 import { UserMenu } from "./UserMenu";
 
 const fallbackLinks = [
-  { label: "Donar", href: "#donar" },
+  { label: "Donar", href: "https://regiven.vercel.app/" },
   { label: "Grupos", href: "#grupos" },
   { label: "Servicios", href: "#servicios" },
   { label: "Nosotros", href: "#nosotros" },

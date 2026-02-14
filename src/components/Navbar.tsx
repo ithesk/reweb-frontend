@@ -46,7 +46,7 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
             alt="Iglesia Revoluciona"
             width={32}
             height={32}
-            className="object-contain w-[44px] h-[44px] invert"
+            className="object-contain w-[56px] h-[56px] invert"
             priority
           />
         </a>

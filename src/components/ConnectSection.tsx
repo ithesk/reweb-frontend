@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export interface ConnectCard {
@@ -50,14 +50,37 @@ export function ConnectSection({
 }: ConnectSectionProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const items = cards && cards.length > 0 ? cards : fallbackCards;
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const updateActiveIndex = useCallback(() => {
+    if (!scrollRef.current) return;
+    const container = scrollRef.current;
+    const scrollLeft = container.scrollLeft;
+    const cardWidth = container.firstElementChild
+      ? (container.firstElementChild as HTMLElement).offsetWidth + 16
+      : 1;
+    setActiveIndex(Math.round(scrollLeft / cardWidth));
+  }, []);
+
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+    container.addEventListener("scroll", updateActiveIndex, { passive: true });
+    return () => container.removeEventListener("scroll", updateActiveIndex);
+  }, [updateActiveIndex]);
+
+  const scrollToIndex = (index: number) => {
+    if (!scrollRef.current) return;
+    const container = scrollRef.current;
+    const card = container.children[index] as HTMLElement | undefined;
+    if (card) {
+      container.scrollTo({ left: card.offsetLeft - 24, behavior: "smooth" });
+    }
+  };
 
   const scroll = (dir: "left" | "right") => {
-    if (!scrollRef.current) return;
-    const amount = 300;
-    scrollRef.current.scrollBy({
-      left: dir === "left" ? -amount : amount,
-      behavior: "smooth",
-    });
+    const next = dir === "left" ? activeIndex - 1 : activeIndex + 1;
+    scrollToIndex(Math.max(0, Math.min(next, items.length - 1)));
   };
 
   return (
@@ -72,9 +95,9 @@ export function ConnectSection({
         </p>
       </div>
 
-      {/* Carousel */}
+      {/* Cards */}
       <div className="relative group">
-        {/* Arrows (desktop) */}
+        {/* Desktop arrows */}
         <button
           onClick={() => scroll("left")}
           className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-10 items-center justify-center w-[44px] h-[44px] rounded-full bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
@@ -92,25 +115,25 @@ export function ConnectSection({
 
         <div
           ref={scrollRef}
-          className="flex gap-4 overflow-x-auto px-6 md:px-10 lg:px-[80px] pb-4 scrollbar-none snap-x snap-mandatory"
+          className="flex gap-4 overflow-x-auto pl-6 pr-6 md:pl-10 md:pr-10 lg:pl-[80px] lg:pr-[80px] scrollbar-none snap-x snap-mandatory"
         >
           {items.map((card, i) => (
             <a
               key={i}
               href={card.href}
-              className="flex-shrink-0 w-[260px] md:w-[300px] snap-start rounded-2xl overflow-hidden group/card relative"
+              className="flex-shrink-0 w-[calc(100vw-80px)] md:w-[300px] snap-center rounded-2xl overflow-hidden relative"
             >
-              <div className="relative w-full h-[320px] md:h-[380px]">
+              <div className="relative w-full aspect-[3/4] md:h-[380px]">
                 <div
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover/card:scale-105"
+                  className="absolute inset-0 bg-cover bg-center"
                   style={{ backgroundImage: `url('${card.image}')` }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-5 flex flex-col gap-1">
-                  <h3 className="font-display text-[18px] md:text-[20px] font-bold text-white leading-[1.2]">
+                  <h3 className="font-display text-[20px] md:text-[20px] font-bold text-white leading-[1.2]">
                     {card.title}
                   </h3>
-                  <p className="font-body text-[12px] md:text-[13px] text-white/60">
+                  <p className="font-body text-[13px] text-white/60">
                     {card.subtitle}
                   </p>
                 </div>
@@ -118,6 +141,22 @@ export function ConnectSection({
             </a>
           ))}
         </div>
+      </div>
+
+      {/* Dots */}
+      <div className="flex items-center justify-center gap-2 mt-6">
+        {items.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => scrollToIndex(i)}
+            className={`h-[8px] rounded-full transition-all duration-300 ${
+              i === activeIndex
+                ? "bg-[var(--text-primary)] w-[20px]"
+                : "bg-[var(--text-muted)]/30 w-[8px]"
+            }`}
+            aria-label={`Tarjeta ${i + 1}`}
+          />
+        ))}
       </div>
     </section>
   );

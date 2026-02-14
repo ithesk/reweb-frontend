@@ -3,6 +3,7 @@
 import { Radio, MapPin, Heart, Users, Calendar, Phone, HandHeart } from "lucide-react";
 import { useState } from "react";
 import { MapModal } from "./MapModal";
+import { StreamingModal } from "./StreamingModal";
 import type { ElementType } from "react";
 
 const iconMap: Record<string, ElementType> = {
@@ -21,10 +22,11 @@ export interface QuickAction {
   href: string;
   isExternal?: boolean;
   opensMap?: boolean;
+  opensStreaming?: boolean;
 }
 
 const fallbackActions: QuickAction[] = [
-  { label: "Streaming", icon: "streaming", href: "#streaming" },
+  { label: "Streaming", icon: "streaming", href: "#streaming", opensStreaming: true },
   { label: "Ubicacion", icon: "ubicacion", href: "#", opensMap: true },
   { label: "Donar", icon: "donar", href: "https://regiven.vercel.app/", isExternal: true },
   { label: "Grupos", icon: "grupos", href: "#grupos" },
@@ -37,6 +39,7 @@ interface QuickActionsProps {
 
 export function QuickActions({ actions }: QuickActionsProps) {
   const [mapOpen, setMapOpen] = useState(false);
+  const [streamingOpen, setStreamingOpen] = useState(false);
   const items = actions && actions.length > 0 ? actions : fallbackActions;
 
   return (
@@ -51,6 +54,19 @@ export function QuickActions({ actions }: QuickActionsProps) {
                 <button
                   key={action.label}
                   onClick={() => setMapOpen(true)}
+                  className="flex flex-col items-center gap-1.5 min-w-[60px] px-2"
+                >
+                  <Icon className="w-[22px] h-[22px] text-white/70" strokeWidth={1.5} />
+                  <span className="font-body text-[10px] text-white/50">{action.label}</span>
+                </button>
+              );
+            }
+
+            if (action.opensStreaming || action.icon === "streaming") {
+              return (
+                <button
+                  key={action.label}
+                  onClick={() => setStreamingOpen(true)}
                   className="flex flex-col items-center gap-1.5 min-w-[60px] px-2"
                 >
                   <Icon className="w-[22px] h-[22px] text-white/70" strokeWidth={1.5} />
@@ -75,6 +91,7 @@ export function QuickActions({ actions }: QuickActionsProps) {
       </div>
 
       <MapModal isOpen={mapOpen} onClose={() => setMapOpen(false)} />
+      <StreamingModal isOpen={streamingOpen} onClose={() => setStreamingOpen(false)} />
     </>
   );
 }

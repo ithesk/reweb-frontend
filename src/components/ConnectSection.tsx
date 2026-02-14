@@ -107,10 +107,10 @@ export function ConnectSection({
     <section className="w-full py-14 md:py-[80px] bg-[var(--bg-primary)] flex flex-col items-center gap-7">
       {/* Header */}
       <div className="flex flex-col items-center gap-3 px-6">
-        <span className="font-display text-[11px] font-bold tracking-[4px] text-[var(--brand-primary)]">
+        <span className="font-display text-[13px] font-bold tracking-[5px] text-[var(--brand-primary)]">
           {label}
         </span>
-        <h2 className="font-display text-[28px] md:text-[40px] lg:text-[48px] font-extrabold tracking-[-1px] text-[var(--text-primary)] text-center">
+        <h2 className="font-display text-[34px] md:text-[48px] lg:text-[58px] font-extrabold tracking-[-0.5px] text-[var(--text-primary)] text-center">
           {title}
         </h2>
         <p className="font-body text-[14px] md:text-[16px] leading-[1.6] text-[var(--text-secondary)] text-center max-w-[500px]">

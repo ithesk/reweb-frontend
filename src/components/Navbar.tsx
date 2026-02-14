@@ -55,18 +55,30 @@ export function Navbar({ links, searchPlaceholder = "Buscar" }: NavbarProps) {
         <UserMenu />
       </div>
 
-      {/* Hamburger — mobile */}
-      <button
-        onClick={() => setMenuOpen(!menuOpen)}
-        className="flex md:hidden items-center justify-center w-[40px] h-[40px]"
-        aria-label="Menu"
-      >
-        {menuOpen ? (
-          <X className="w-6 h-6 text-white" />
-        ) : (
-          <Menu className="w-6 h-6 text-white" />
+      {/* Donar + Hamburger — mobile */}
+      <div className="flex md:hidden items-center gap-3">
+        {navLinks.find((l) => l.label.toLowerCase() === "donar") && (
+          <a
+            href={navLinks.find((l) => l.label.toLowerCase() === "donar")!.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center h-[36px] px-4 rounded-full bg-white font-body text-[13px] font-semibold text-black"
+          >
+            Donar
+          </a>
         )}
-      </button>
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="flex items-center justify-center w-[40px] h-[40px]"
+          aria-label="Menu"
+        >
+          {menuOpen ? (
+            <X className="w-6 h-6 text-white" />
+          ) : (
+            <Menu className="w-6 h-6 text-white" />
+          )}
+        </button>
+      </div>
 
       {/* Mobile Menu */}
       {menuOpen && (

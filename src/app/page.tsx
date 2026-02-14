@@ -61,7 +61,7 @@ export default async function Home() {
         links={navLinks}
         searchPlaceholder={settings?.searchPlaceholder}
       />
-      <QuickActions actions={hp?.quickActions} />
+      <QuickActions actions={hp?.quickActions} streamingUrl={settings?.streamingUrl} />
       <Hero
         welcomeLabel={hp?.hero?.title ? "BIENVENIDO A" : undefined}
         subtitle={hp?.hero?.subtitle}

@@ -35,9 +35,10 @@ const fallbackActions: QuickAction[] = [
 
 interface QuickActionsProps {
   actions?: QuickAction[];
+  streamingUrl?: string;
 }
 
-export function QuickActions({ actions }: QuickActionsProps) {
+export function QuickActions({ actions, streamingUrl }: QuickActionsProps) {
   const [mapOpen, setMapOpen] = useState(false);
   const [streamingOpen, setStreamingOpen] = useState(false);
   const items = actions && actions.length > 0 ? actions : fallbackActions;
@@ -91,7 +92,7 @@ export function QuickActions({ actions }: QuickActionsProps) {
       </div>
 
       <MapModal isOpen={mapOpen} onClose={() => setMapOpen(false)} />
-      <StreamingModal isOpen={streamingOpen} onClose={() => setStreamingOpen(false)} />
+      <StreamingModal isOpen={streamingOpen} onClose={() => setStreamingOpen(false)} youtubeUrl={streamingUrl} />
     </>
   );
 }

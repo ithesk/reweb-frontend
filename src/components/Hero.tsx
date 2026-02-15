@@ -102,7 +102,7 @@ export function Hero({
           loop
         />
 
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, #0A0A0AEE 0%, #0A0A0A44 35%, #0A0A0A22 60%, #0A0A0ABB 100%)' }} />
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, #0A0A0A66 0%, #0A0A0A99 100%)' }} />
 
         {/* Mute/Unmute button */}
         <button
@@ -117,39 +117,22 @@ export function Hero({
           )}
         </button>
 
-        <div className="relative flex flex-col justify-center h-full px-10 lg:px-[80px] gap-8">
-          <span className="font-display text-[16px] font-semibold text-[var(--brand-primary)] tracking-[4px]">
+        <div className="relative flex flex-col items-center justify-center h-full text-center gap-3">
+          <span className="font-display text-[13px] font-semibold text-[var(--brand-primary)] tracking-[5px] uppercase">
             {welcomeLabel}
           </span>
-          <div className="flex flex-col">
-            <span className="font-display text-[36px] font-light text-white tracking-[-0.5px]">
+          <div className="flex flex-col items-center">
+            <span className="font-display text-[28px] font-light text-white/90 tracking-[1px]">
               {titleLine1}
             </span>
             <div className="flex items-end">
-              <span className="font-display text-[72px] lg:text-[96px] font-black text-white tracking-[-3px] leading-[0.85]">
+              <span className="font-display text-[64px] lg:text-[80px] font-black text-white tracking-[-2px] leading-[0.9]">
                 {titleBoldPart}
               </span>
-              <span className="font-display text-[72px] lg:text-[96px] font-light text-white tracking-[-3px] leading-[0.85]">
+              <span className="font-display text-[64px] lg:text-[80px] font-light text-white/90 tracking-[-2px] leading-[0.9]">
                 {titleLightPart}
               </span>
             </div>
-          </div>
-          <p className="font-body text-[20px] text-white/80 max-w-[500px]">
-            {subtitle}
-          </p>
-          <div className="flex flex-row gap-4">
-            <a
-              href={ctaPrimaryHref}
-              className="flex items-center justify-center px-10 py-4 rounded-[8px] bg-[var(--brand-primary)] font-display text-[16px] font-bold text-white hover:brightness-110 transition-all"
-            >
-              {ctaPrimaryLabel}
-            </a>
-            <a
-              href={ctaSecondaryHref}
-              className="flex items-center justify-center px-10 py-4 rounded-[8px] border-[1.5px] border-[var(--brand-primary)] font-display text-[16px] font-medium text-[var(--brand-primary)] hover:bg-[var(--accent-glow)] transition-colors"
-            >
-              {ctaSecondaryLabel}
-            </a>
           </div>
         </div>
       </section>
@@ -181,31 +164,28 @@ export function Hero({
                   style={{ backgroundImage: `url('${slide.backgroundImage}')` }}
                 />
               )}
-              <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, #0A0A0AEE 0%, #0A0A0A44 35%, #0A0A0A22 60%, #0A0A0ABB 100%)' }} />
+              <div className="absolute inset-0" style={{ background: i === 0 ? 'radial-gradient(ellipse at center, #0A0A0A55 0%, #0A0A0A88 100%)' : 'linear-gradient(to bottom, #0A0A0AEE 0%, #0A0A0A44 35%, #0A0A0A22 60%, #0A0A0ABB 100%)' }} />
 
               {/* Content */}
-              <div className="relative flex flex-col justify-end h-full px-6 pb-6 gap-3">
+              <div className={`relative flex flex-col h-full px-6 gap-3 ${i === 0 ? "items-center justify-center text-center" : "justify-end pb-6"}`}>
                 {i === 0 ? (
                   <>
-                    <span className="font-display text-[12px] font-semibold text-[var(--brand-primary)] tracking-[4px]">
+                    <span className="font-display text-[11px] font-semibold text-[var(--brand-primary)] tracking-[5px] uppercase">
                       {welcomeLabel}
                     </span>
-                    <div className="flex flex-col -mt-1">
-                      <span className="font-display text-[24px] font-light text-white tracking-[-0.5px]">
+                    <div className="flex flex-col items-center -mt-1">
+                      <span className="font-display text-[20px] font-light text-white/90 tracking-[1px]">
                         {titleLine1}
                       </span>
                       <div className="flex items-end">
-                        <span className="font-display text-[56px] font-black text-white tracking-[-3px] leading-[0.85]">
+                        <span className="font-display text-[48px] font-black text-white tracking-[-2px] leading-[0.9]">
                           {titleBoldPart}
                         </span>
-                        <span className="font-display text-[56px] font-light text-white tracking-[-3px] leading-[0.85]">
+                        <span className="font-display text-[48px] font-light text-white/90 tracking-[-2px] leading-[0.9]">
                           {titleLightPart}
                         </span>
                       </div>
                     </div>
-                    <p className="font-body text-[14px] text-white/70 leading-[1.5]">
-                      {subtitle}
-                    </p>
                   </>
                 ) : (
                   <>
@@ -218,25 +198,27 @@ export function Hero({
                   </>
                 )}
 
-                {/* CTAs */}
-                <div className="flex flex-col gap-2.5 mt-1">
-                  {slide.ctaLabel && (
-                    <a
-                      href={slide.ctaHref || "#"}
-                      className="flex items-center justify-center w-full py-3.5 rounded-[8px] bg-[var(--brand-primary)] font-display text-[14px] font-bold text-white"
-                    >
-                      {slide.ctaLabel}
-                    </a>
-                  )}
-                  {slide.ctaSecondaryLabel && (
-                    <a
-                      href={slide.ctaSecondaryHref || "#"}
-                      className="flex items-center justify-center w-full py-3.5 rounded-[8px] border-[1.5px] border-[var(--brand-primary)] font-display text-[14px] font-medium text-[var(--brand-primary)]"
-                    >
-                      {slide.ctaSecondaryLabel}
-                    </a>
-                  )}
-                </div>
+                {/* CTAs (hidden on video slide) */}
+                {i !== 0 && (
+                  <div className="flex flex-col gap-2.5 mt-1">
+                    {slide.ctaLabel && (
+                      <a
+                        href={slide.ctaHref || "#"}
+                        className="flex items-center justify-center w-full py-3.5 rounded-[8px] bg-[var(--brand-primary)] font-display text-[14px] font-bold text-white"
+                      >
+                        {slide.ctaLabel}
+                      </a>
+                    )}
+                    {slide.ctaSecondaryLabel && (
+                      <a
+                        href={slide.ctaSecondaryHref || "#"}
+                        className="flex items-center justify-center w-full py-3.5 rounded-[8px] border-[1.5px] border-[var(--brand-primary)] font-display text-[14px] font-medium text-[var(--brand-primary)]"
+                      >
+                        {slide.ctaSecondaryLabel}
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Mute button on first slide */}

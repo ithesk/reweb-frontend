@@ -60,6 +60,7 @@ export function Hero({
 }: HeroProps) {
   const [current, setCurrent] = useState(0);
   const [muted, setMuted] = useState(true);
+  const [textVisible, setTextVisible] = useState(true);
   const videoRefDesktop = useRef<HTMLVideoElement>(null);
   const videoRefMobile = useRef<HTMLVideoElement>(null);
   const heroSlides = slides || defaultSlides;
@@ -80,6 +81,12 @@ export function Hero({
     return () => clearInterval(timer);
   }, [next, current]);
 
+  // Fade out text after video starts
+  useEffect(() => {
+    const timer = setTimeout(() => setTextVisible(false), 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const toggleMute = () => {
     const newMuted = !muted;
     setMuted(newMuted);
@@ -93,7 +100,7 @@ export function Hero({
       <section className="hidden md:block relative w-full h-[600px] lg:h-[720px] bg-[var(--bg-dark)] overflow-hidden">
         <video
           ref={videoRefDesktop}
-          className="absolute inset-0 w-full h-full object-cover opacity-50"
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
           src="/HOY.mp4"
           poster="/portadashek.jpg"
           playsInline
@@ -102,38 +109,50 @@ export function Hero({
           loop
         />
 
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, #0A0A0A66 0%, #0A0A0A99 100%)' }} />
+        <div className="absolute inset-0 transition-opacity duration-1000" style={{ background: 'linear-gradient(to bottom, #0A0A0AEE 0%, #0A0A0A44 35%, #0A0A0A22 60%, #0A0A0ABB 100%)', opacity: textVisible ? 1 : 0 }} />
 
-        {/* Mute/Unmute button */}
-        <button
-          onClick={toggleMute}
-          className="absolute bottom-8 right-8 z-10 flex items-center justify-center w-[48px] h-[48px] rounded-full bg-black/50 backdrop-blur-sm border border-white/20 hover:bg-black/70 transition-all"
-          aria-label={muted ? "Activar sonido" : "Silenciar"}
-        >
-          {muted ? (
-            <VolumeX className="w-5 h-5 text-white" />
-          ) : (
-            <Volume2 className="w-5 h-5 text-white" />
-          )}
-        </button>
-
-        <div className="relative flex flex-col items-center justify-center h-full text-center gap-3">
-          <span className="font-display text-[13px] font-semibold text-[var(--brand-primary)] tracking-[5px] uppercase">
+        {/* Text overlay - fades out when video plays */}
+        <div className={`relative flex flex-col justify-center h-full px-10 lg:px-[80px] gap-6 transition-opacity duration-1000 ${textVisible ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+          <span className="font-display text-[16px] font-semibold text-[var(--brand-primary)] tracking-[4px]">
             {welcomeLabel}
           </span>
-          <div className="flex flex-col items-center">
-            <span className="font-display text-[28px] font-light text-white/90 tracking-[1px]">
+          <div className="flex flex-col">
+            <span className="font-display text-[36px] font-light text-white tracking-[-0.5px]">
               {titleLine1}
             </span>
             <div className="flex items-end">
-              <span className="font-display text-[64px] lg:text-[80px] font-black text-white tracking-[-2px] leading-[0.9]">
+              <span className="font-display text-[72px] lg:text-[96px] font-black text-white tracking-[-3px] leading-[0.85]">
                 {titleBoldPart}
               </span>
-              <span className="font-display text-[64px] lg:text-[80px] font-light text-white/90 tracking-[-2px] leading-[0.9]">
+              <span className="font-display text-[72px] lg:text-[96px] font-light text-white tracking-[-3px] leading-[0.85]">
                 {titleLightPart}
               </span>
             </div>
           </div>
+          <p className="font-body text-[20px] text-white/80 max-w-[500px]">
+            {subtitle}
+          </p>
+        </div>
+
+        {/* Bottom bar - always visible */}
+        <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-10 lg:px-[80px] py-6 z-10">
+          <a
+            href={ctaPrimaryHref}
+            className="flex items-center justify-center px-8 py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 font-display text-[14px] font-medium text-white hover:bg-white/20 transition-all"
+          >
+            {ctaPrimaryLabel || "Conocenos"}
+          </a>
+          <button
+            onClick={toggleMute}
+            className="flex items-center justify-center w-[44px] h-[44px] rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all"
+            aria-label={muted ? "Activar sonido" : "Silenciar"}
+          >
+            {muted ? (
+              <VolumeX className="w-5 h-5 text-white" />
+            ) : (
+              <Volume2 className="w-5 h-5 text-white" />
+            )}
+          </button>
         </div>
       </section>
 
@@ -164,42 +183,63 @@ export function Hero({
                   style={{ backgroundImage: `url('${slide.backgroundImage}')` }}
                 />
               )}
-              <div className="absolute inset-0" style={{ background: i === 0 ? 'radial-gradient(ellipse at center, #0A0A0A55 0%, #0A0A0A88 100%)' : 'linear-gradient(to bottom, #0A0A0AEE 0%, #0A0A0A44 35%, #0A0A0A22 60%, #0A0A0ABB 100%)' }} />
+              {/* Gradient - fades on video slide */}
+              <div className="absolute inset-0 transition-opacity duration-1000" style={{ background: 'linear-gradient(to bottom, #0A0A0AEE 0%, #0A0A0A44 35%, #0A0A0A22 60%, #0A0A0ABB 100%)', opacity: i === 0 && !textVisible ? 0 : 1 }} />
 
               {/* Content */}
-              <div className={`relative flex flex-col h-full px-6 gap-3 ${i === 0 ? "items-center justify-center text-center" : "justify-end pb-6"}`}>
-                {i === 0 ? (
-                  <>
-                    <span className="font-display text-[11px] font-semibold text-[var(--brand-primary)] tracking-[5px] uppercase">
+              {i === 0 ? (
+                <>
+                  {/* Text that fades out */}
+                  <div className={`absolute inset-0 flex flex-col justify-end px-6 pb-20 gap-3 transition-opacity duration-1000 ${textVisible ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+                    <span className="font-display text-[12px] font-semibold text-[var(--brand-primary)] tracking-[4px]">
                       {welcomeLabel}
                     </span>
-                    <div className="flex flex-col items-center -mt-1">
-                      <span className="font-display text-[20px] font-light text-white/90 tracking-[1px]">
+                    <div className="flex flex-col -mt-1">
+                      <span className="font-display text-[24px] font-light text-white tracking-[-0.5px]">
                         {titleLine1}
                       </span>
                       <div className="flex items-end">
-                        <span className="font-display text-[48px] font-black text-white tracking-[-2px] leading-[0.9]">
+                        <span className="font-display text-[56px] font-black text-white tracking-[-3px] leading-[0.85]">
                           {titleBoldPart}
                         </span>
-                        <span className="font-display text-[48px] font-light text-white/90 tracking-[-2px] leading-[0.9]">
+                        <span className="font-display text-[56px] font-light text-white tracking-[-3px] leading-[0.85]">
                           {titleLightPart}
                         </span>
                       </div>
                     </div>
-                  </>
-                ) : (
-                  <>
-                    <h2 className="font-display text-[28px] font-extrabold text-white tracking-[-1px] leading-[1.1]">
-                      {slide.title}
-                    </h2>
                     <p className="font-body text-[14px] text-white/70 leading-[1.5]">
-                      {slide.subtitle}
+                      {subtitle}
                     </p>
-                  </>
-                )}
-
-                {/* CTAs (hidden on video slide) */}
-                {i !== 0 && (
+                  </div>
+                  {/* Bottom bar - always visible */}
+                  <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-4 py-4 z-10">
+                    <a
+                      href={ctaPrimaryHref}
+                      className="flex items-center justify-center px-6 py-2.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 font-display text-[13px] font-medium text-white"
+                    >
+                      {ctaPrimaryLabel || "Conocenos"}
+                    </a>
+                    <button
+                      onClick={toggleMute}
+                      className="flex items-center justify-center w-[38px] h-[38px] rounded-full bg-white/10 backdrop-blur-sm border border-white/20"
+                      aria-label={muted ? "Activar sonido" : "Silenciar"}
+                    >
+                      {muted ? (
+                        <VolumeX className="w-4 h-4 text-white" />
+                      ) : (
+                        <Volume2 className="w-4 h-4 text-white" />
+                      )}
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <div className="relative flex flex-col justify-end h-full px-6 pb-6 gap-3">
+                  <h2 className="font-display text-[28px] font-extrabold text-white tracking-[-1px] leading-[1.1]">
+                    {slide.title}
+                  </h2>
+                  <p className="font-body text-[14px] text-white/70 leading-[1.5]">
+                    {slide.subtitle}
+                  </p>
                   <div className="flex flex-col gap-2.5 mt-1">
                     {slide.ctaLabel && (
                       <a
@@ -218,22 +258,7 @@ export function Hero({
                       </a>
                     )}
                   </div>
-                )}
-              </div>
-
-              {/* Mute button on first slide */}
-              {i === 0 && (
-                <button
-                  onClick={toggleMute}
-                  className="absolute bottom-20 right-4 z-10 flex items-center justify-center w-[40px] h-[40px] rounded-full bg-black/50 backdrop-blur-sm border border-white/20"
-                  aria-label={muted ? "Activar sonido" : "Silenciar"}
-                >
-                  {muted ? (
-                    <VolumeX className="w-4 h-4 text-white" />
-                  ) : (
-                    <Volume2 className="w-4 h-4 text-white" />
-                  )}
-                </button>
+                </div>
               )}
             </div>
           ))}

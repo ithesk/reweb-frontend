@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { ChevronLeft, ChevronRight, Volume2, VolumeX } from "lucide-react";
 
 interface HeroSlide {
   title: string;
@@ -56,11 +56,10 @@ export function Hero({
   ctaPrimaryHref = "#conecta",
   ctaSecondaryLabel = "Conoce mas",
   ctaSecondaryHref = "#conoce",
-  backgroundImage = "/Hero Background.png",
   slides,
 }: HeroProps) {
   const [current, setCurrent] = useState(0);
-  const [videoPlaying, setVideoPlaying] = useState(false);
+  const [muted, setMuted] = useState(true);
   const videoRefDesktop = useRef<HTMLVideoElement>(null);
   const videoRefMobile = useRef<HTMLVideoElement>(null);
   const heroSlides = slides || defaultSlides;
@@ -74,40 +73,49 @@ export function Hero({
     setCurrent((c) => (c - 1 + totalSlides) % totalSlides);
   }, [totalSlides]);
 
-  // Auto-advance carousel (pause while video is playing)
+  // Auto-advance carousel (pause on first slide while video plays)
   useEffect(() => {
-    if (videoPlaying) return;
+    if (current === 0) return; // stay on video slide
     const timer = setInterval(next, 6000);
     return () => clearInterval(timer);
-  }, [next, videoPlaying]);
+  }, [next, current]);
 
-  const playVideo = (ref: React.RefObject<HTMLVideoElement | null>) => {
-    if (ref.current) {
-      ref.current.play();
-      setVideoPlaying(true);
-    }
+  const toggleMute = () => {
+    const newMuted = !muted;
+    setMuted(newMuted);
+    if (videoRefDesktop.current) videoRefDesktop.current.muted = newMuted;
+    if (videoRefMobile.current) videoRefMobile.current.muted = newMuted;
   };
 
   return (
     <>
       {/* Desktop */}
       <section className="hidden md:block relative w-full h-[600px] lg:h-[720px] bg-[var(--bg-dark)] overflow-hidden">
-        {/* Video */}
         <video
           ref={videoRefDesktop}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${videoPlaying ? "opacity-60" : "opacity-0"}`}
+          className="absolute inset-0 w-full h-full object-cover opacity-50"
           src="/HOY.mp4"
+          poster="/portadashek.jpg"
           playsInline
-          onEnded={() => setVideoPlaying(false)}
-        />
-
-        {/* Poster image (visible when video not playing) */}
-        <div
-          className={`absolute inset-0 bg-cover bg-center transition-opacity duration-700 ${videoPlaying ? "opacity-0" : "opacity-50"}`}
-          style={{ backgroundImage: `url('/portadashek.jpg')` }}
+          autoPlay
+          muted
+          loop
         />
 
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, #0A0A0AEE 0%, #0A0A0A44 35%, #0A0A0A22 60%, #0A0A0ABB 100%)' }} />
+
+        {/* Mute/Unmute button */}
+        <button
+          onClick={toggleMute}
+          className="absolute bottom-8 right-8 z-10 flex items-center justify-center w-[48px] h-[48px] rounded-full bg-black/50 backdrop-blur-sm border border-white/20 hover:bg-black/70 transition-all"
+          aria-label={muted ? "Activar sonido" : "Silenciar"}
+        >
+          {muted ? (
+            <VolumeX className="w-5 h-5 text-white" />
+          ) : (
+            <Volume2 className="w-5 h-5 text-white" />
+          )}
+        </button>
 
         <div className="relative flex flex-col justify-center h-full px-10 lg:px-[80px] gap-8">
           <span className="font-display text-[16px] font-semibold text-[var(--brand-primary)] tracking-[4px]">
@@ -130,15 +138,6 @@ export function Hero({
             {subtitle}
           </p>
           <div className="flex flex-row gap-4">
-            {!videoPlaying && (
-              <button
-                onClick={() => playVideo(videoRefDesktop)}
-                className="flex items-center justify-center gap-2 px-10 py-4 rounded-[8px] bg-[var(--brand-primary)] font-display text-[16px] font-bold text-white hover:brightness-110 transition-all"
-              >
-                <Play className="w-5 h-5" />
-                Reproducir
-              </button>
-            )}
             <a
               href={ctaPrimaryHref}
               className="flex items-center justify-center px-10 py-4 rounded-[8px] bg-[var(--brand-primary)] font-display text-[16px] font-bold text-white hover:brightness-110 transition-all"
@@ -166,20 +165,16 @@ export function Hero({
               }`}
             >
               {i === 0 ? (
-                <>
-                  {/* First slide: poster + video */}
-                  <video
-                    ref={videoRefMobile}
-                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${videoPlaying ? "opacity-60" : "opacity-0"}`}
-                    src="/HOY.mp4"
-                    playsInline
-                              onEnded={() => setVideoPlaying(false)}
-                  />
-                  <div
-                    className={`absolute inset-0 bg-cover bg-center transition-opacity duration-700 ${videoPlaying ? "opacity-0" : "opacity-100"}`}
-                    style={{ backgroundImage: `url('/portadashek.jpg')` }}
-                  />
-                </>
+                <video
+                  ref={videoRefMobile}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  src="/HOY.mp4"
+                  poster="/portadashek.jpg"
+                  playsInline
+                  autoPlay
+                  muted
+                  loop
+                />
               ) : (
                 <div
                   className="absolute inset-0 bg-cover bg-center"
@@ -225,15 +220,6 @@ export function Hero({
 
                 {/* CTAs */}
                 <div className="flex flex-col gap-2.5 mt-1">
-                  {i === 0 && !videoPlaying && (
-                    <button
-                      onClick={() => playVideo(videoRefMobile)}
-                      className="flex items-center justify-center gap-2 w-full py-3.5 rounded-[8px] bg-[var(--brand-primary)] font-display text-[14px] font-bold text-white"
-                    >
-                      <Play className="w-4 h-4" />
-                      Reproducir
-                    </button>
-                  )}
                   {slide.ctaLabel && (
                     <a
                       href={slide.ctaHref || "#"}
@@ -252,6 +238,21 @@ export function Hero({
                   )}
                 </div>
               </div>
+
+              {/* Mute button on first slide */}
+              {i === 0 && (
+                <button
+                  onClick={toggleMute}
+                  className="absolute bottom-20 right-4 z-10 flex items-center justify-center w-[40px] h-[40px] rounded-full bg-black/50 backdrop-blur-sm border border-white/20"
+                  aria-label={muted ? "Activar sonido" : "Silenciar"}
+                >
+                  {muted ? (
+                    <VolumeX className="w-4 h-4 text-white" />
+                  ) : (
+                    <Volume2 className="w-4 h-4 text-white" />
+                  )}
+                </button>
+              )}
             </div>
           ))}
 

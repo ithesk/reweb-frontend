@@ -134,26 +134,18 @@ export function Hero({
           </p>
         </div>
 
-        {/* Bottom bar - always visible */}
-        <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-10 lg:px-[80px] py-6 z-10">
-          <a
-            href={ctaPrimaryHref}
-            className="flex items-center justify-center px-8 py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 font-display text-[14px] font-medium text-white hover:bg-white/20 transition-all"
-          >
-            {ctaPrimaryLabel || "Conocenos"}
-          </a>
-          <button
-            onClick={toggleMute}
-            className="flex items-center justify-center w-[44px] h-[44px] rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all"
-            aria-label={muted ? "Activar sonido" : "Silenciar"}
-          >
-            {muted ? (
-              <VolumeX className="w-5 h-5 text-white" />
-            ) : (
-              <Volume2 className="w-5 h-5 text-white" />
-            )}
-          </button>
-        </div>
+        {/* Volume toggle - always visible */}
+        <button
+          onClick={toggleMute}
+          className="absolute bottom-6 right-10 lg:right-[80px] z-10 flex items-center justify-center w-[44px] h-[44px] rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all"
+          aria-label={muted ? "Activar sonido" : "Silenciar"}
+        >
+          {muted ? (
+            <VolumeX className="w-5 h-5 text-white" />
+          ) : (
+            <Volume2 className="w-5 h-5 text-white" />
+          )}
+        </button>
       </section>
 
       {/* Mobile: Carousel hero */}
@@ -211,26 +203,18 @@ export function Hero({
                       {subtitle}
                     </p>
                   </div>
-                  {/* Bottom bar - always visible */}
-                  <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-4 py-4 z-10">
-                    <a
-                      href={ctaPrimaryHref}
-                      className="flex items-center justify-center px-6 py-2.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 font-display text-[13px] font-medium text-white"
-                    >
-                      {ctaPrimaryLabel || "Conocenos"}
-                    </a>
-                    <button
-                      onClick={toggleMute}
-                      className="flex items-center justify-center w-[38px] h-[38px] rounded-full bg-white/10 backdrop-blur-sm border border-white/20"
-                      aria-label={muted ? "Activar sonido" : "Silenciar"}
-                    >
-                      {muted ? (
-                        <VolumeX className="w-4 h-4 text-white" />
-                      ) : (
-                        <Volume2 className="w-4 h-4 text-white" />
-                      )}
-                    </button>
-                  </div>
+                  {/* Volume toggle - always visible */}
+                  <button
+                    onClick={toggleMute}
+                    className="absolute bottom-4 right-4 z-10 flex items-center justify-center w-[38px] h-[38px] rounded-full bg-white/10 backdrop-blur-sm border border-white/20"
+                    aria-label={muted ? "Activar sonido" : "Silenciar"}
+                  >
+                    {muted ? (
+                      <VolumeX className="w-4 h-4 text-white" />
+                    ) : (
+                      <Volume2 className="w-4 h-4 text-white" />
+                    )}
+                  </button>
                 </>
               ) : (
                 <div className="relative flex flex-col justify-end h-full px-6 pb-6 gap-3">
